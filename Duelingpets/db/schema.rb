@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_26_050042) do
+ActiveRecord::Schema.define(version: 2020_02_16_070301) do
 
   create_table "accounttypes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -24,6 +24,22 @@ ActiveRecord::Schema.define(version: 2020_01_26_050042) do
     t.text "message"
     t.datetime "created_on"
     t.string "art"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "baseincs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.integer "amount"
+    t.datetime "created_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "baserates", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.float "amount", limit: 53
+    t.datetime "created_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -107,6 +123,7 @@ ActiveRecord::Schema.define(version: 2020_01_26_050042) do
     t.string "colortype"
     t.text "description"
     t.datetime "created_on"
+    t.datetime "updated_on"
     t.integer "user_id"
     t.boolean "activated", default: false
     t.boolean "democolor", default: false
@@ -211,34 +228,33 @@ ActiveRecord::Schema.define(version: 2020_01_26_050042) do
     t.string "name"
     t.text "message"
     t.datetime "created_on"
+    t.datetime "updated_on"
     t.string "ogg"
     t.string "mp3"
-    t.float "taxbase", limit: 53
-    t.float "taxinc", limit: 53
-    t.integer "ocpoints"
-    t.integer "colorschemepoints"
-    t.integer "colorschemecleanup"
+    t.integer "basecost"
+    t.float "baserate", limit: 53
     t.integer "treasury", default: 0
     t.integer "contestpoints", default: 0
-    t.integer "conversioncost"
-    t.integer "emeraldvalue"
-    t.float "emeraldrate", limit: 53
-    t.integer "pointscreated"
+    t.integer "vacationpoints", default: 0
     t.integer "profit", default: 0
+    t.integer "emeralds", default: 0
     t.boolean "denholiday", default: false
     t.string "dragonimage"
-    t.integer "blogadbannercost"
-    t.integer "bloglargeimagecost"
-    t.integer "blogsmallimagecost"
-    t.integer "blogmusiccost"
-    t.integer "blogpoints"
-    t.integer "blogmascotpoints"
-    t.integer "dreyterrium_start"
-    t.integer "newdreyterriumcapacity"
-    t.integer "dreyterrium_extracted", default: 0
-    t.integer "dreyterriumchange"
-    t.integer "dreyterriumbasepoints"
-    t.integer "dreyterriumcurrent_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "dreyores", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.integer "cur", default: 0
+    t.integer "cap"
+    t.integer "baseinc"
+    t.integer "change"
+    t.integer "price"
+    t.integer "extracted", default: 0
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "dragonhoard_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -250,6 +266,18 @@ ActiveRecord::Schema.define(version: 2020_01_26_050042) do
     t.integer "amount"
     t.datetime "created_on"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fieldcosts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.integer "amount"
+    t.string "econtype"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "baseinc_id"
+    t.integer "dragonhoard_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -451,6 +479,18 @@ ActiveRecord::Schema.define(version: 2020_01_26_050042) do
     t.integer "emeraldlevel", default: 0
     t.integer "dreyterriumlevel", default: 0
     t.boolean "firstdreyterrium", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ratecosts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.float "amount", limit: 53
+    t.string "econtype"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "baserate_id"
+    t.integer "dragonhoard_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

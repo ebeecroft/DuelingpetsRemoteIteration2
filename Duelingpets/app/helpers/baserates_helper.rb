@@ -1,0 +1,2 @@
+module BaseratesHelper
+end

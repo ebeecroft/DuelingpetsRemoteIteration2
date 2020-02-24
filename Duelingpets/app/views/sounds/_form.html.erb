@@ -1,7 +1,7 @@
 <%= form_with(model: [@subsheet, @sound], local: true) do |form| %>
   <% if @sound.errors.any? %>
     <div id="errorexplan">
-      <h2 id="errorheader"><%= pluralize(@sound.errors.count, "error") %> prohibited this subsheet from being saved:</h2>
+      <h2 id="errorheader"><%= pluralize(@sound.errors.count, "error") %> prohibited this sound from being saved:</h2>
 
       <ul>
       <% @sound.errors.full_messages.each do |message| %>

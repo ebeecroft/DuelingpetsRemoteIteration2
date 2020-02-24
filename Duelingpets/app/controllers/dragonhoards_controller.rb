@@ -17,6 +17,10 @@ class DragonhoardsController < ApplicationController
       mode "withdraw"
    end
 
+   def createemeralds
+      mode "createemeralds"
+   end
+
    def buyemeralds
       mode "buyemeralds"
    end
@@ -25,119 +29,15 @@ class DragonhoardsController < ApplicationController
       mode "convertpoints"
    end
 
-   def inctaxbase
-      mode "inctaxbase"
+   def vacationmode
+      mode "vacationmode"
    end
 
-   def inctaxinc
-      mode "inctaxinc"
+   def getvacationpoints
+      mode "getvacationpoints"
    end
 
-   def inccolorschemepoints
-      mode "inccolorschemepoints"
-   end
-
-   def inccolorschemecleanup
-      mode "inccolorschemecleanup"
-   end
-
-   def incconversioncost
-      mode "incconversioncost"
-   end
-
-   def incpointscreated
-      mode "incpointscreated"
-   end
-
-   def incblogadbannercost
-      mode "incblogadbannercost"
-   end
-
-   def incbloglargeimagecost
-      mode "incbloglargeimagecost"
-   end
-
-   def incblogsmallimagecost
-      mode "incblogsmallimagecost"
-   end
-
-   def incblogmusiccost
-      mode "incblogmusiccost"
-   end
-
-   def incblogpoints
-      mode "incblogpoints"
-   end
-
-   def incblogmascotpoints
-      mode "incblogmascotpoints"
-   end
-
-   def incemeraldvalue
-      mode "incemeraldvalue"
-   end
-
-   def incemeraldrate
-      mode "incemeraldrate"
-   end
-
-   def dectaxbase
-      mode "dectaxbase"
-   end
-
-   def dectaxinc
-      mode "dectaxinc"
-   end
-
-   def deccolorschemepoints
-      mode "deccolorschemepoints"
-   end
-
-   def deccolorschemecleanup
-      mode "deccolorschemecleanup"
-   end
-
-   def decconversioncost
-      mode "decconversioncost"
-   end
-
-   def decpointscreated
-      mode "decpointscreated"
-   end
-
-   def decblogadbannercost
-      mode "decblogadbannercost"
-   end
-
-   def decbloglargeimagecost
-      mode "decbloglargeimagecost"
-   end
-
-   def decblogsmallimagecost
-      mode "decblogsmallimagecost"
-   end
-
-   def decblogmusiccost
-      mode "decblogmusiccost"
-   end
-
-   def decblogpoints
-      mode "decblogpoints"
-   end
-
-   def decblogmascotpoints
-      mode "decblogmascotpoints"
-   end
-
-   def decemeraldvalue
-      mode "decemeraldvalue"
-   end
-
-   def decemeraldrate
-      mode "decemeraldrate"
-   end
-
-   def addore
-      mode "addore"
+   def transfer
+      mode "transfer"
    end
 end

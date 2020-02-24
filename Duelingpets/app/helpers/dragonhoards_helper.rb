@@ -1,363 +1,61 @@
 module DragonhoardsHelper
 
    private
-      def getDreyterriumLeft
-         allPouches = Pouch.all
-         newDreyterrium = allPouches.select{|pouch| pouch.dreyterriumamount > 0 && pouch.firstdreyterrium}
-         value = newDreyterrium.count
-         return value
-      end
-
-      def getEmeraldPrice
-         hoardFound = Dragonhoard.find_by_id(1)
-         price = hoardFound.emeraldvalue * hoardFound.emeraldrate
-         return price
-      end
-
-      def increaseAttributes(type, status)
-         hoardFound = Dragonhoard.find_by_id(1)
-         if(hoardFound)
-            logged_in = current_user
-            if(logged_in && ((logged_in.pouch.privilege == "Admin") || (logged_in.pouch.privilege == "Glitchy")))
-               smallIncrement = 1
-               mediumIncrement = 10
-               largeIncrement = 100
-               #Need to eventually plan how much points to decrement for each feature upgrade
-               if(type == "inccolorschemepoints" || type == "deccolorschemepoints")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.colorschemepoints - smallIncrement
-                        if(min > -1)
-                           hoardFound.colorschemepoints -= smallIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.colorschemepoints += smallIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "inccolorschemecleanup" || type == "deccolorschemecleanup")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.colorschemecleanup - smallIncrement
-                        if(min > -1)
-                           hoardFound.colorschemecleanup -= smallIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.colorschemecleanup += smallIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "inctaxbase" || type == "dectaxbase")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.taxbase - 0.0001
-                        if(min > -0.0001)
-                           hoardFound.taxbase -= 0.0001
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.taxbase += 0.0001
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "inctaxinc" || type == "dectaxinc")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.taxinc - 0.0001
-                        if(min > -0.0001)
-                           hoardFound.taxinc -= 0.0001
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.taxinc += 0.0001
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incconversioncost" || type == "decconversioncost")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.conversioncost - smallIncrement
-                        if(min > -1)
-                           hoardFound.conversioncost -= smallIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.conversioncost += smallIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incpointscreated" || type == "decpointscreated")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.pointscreated - smallIncrement
-                        if(min > -1)
-                           hoardFound.pointscreated -= smallIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.pointscreated += smallIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incblogadbannercost" || type == "decblogadbannercost")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.blogadbannercost - largeIncrement
-                        if(min > -100)
-                           hoardFound.blogadbannercost -= largeIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.blogadbannercost += largeIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incbloglargeimagecost" || type == "decbloglargeimagecost")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.bloglargeimagecost - largeIncrement
-                        if(min > -100)
-                           hoardFound.bloglargeimagecost -= largeIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.bloglargeimagecost += largeIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incblogsmallimagecost" || type == "decblogsmallimagecost")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.blogsmallimagecost - largeIncrement
-                        if(min > -100)
-                           hoardFound.blogsmallimagecost -= largeIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.blogsmallimagecost += largeIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incblogmusiccost" || type == "decblogmusiccost")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.blogmusiccost - mediumIncrement
-                        if(min > -10)
-                           hoardFound.blogmusiccost -= mediumIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.blogmusiccost += mediumIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incblogpoints" || type == "decblogpoints")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.blogpoints - smallIncrement
-                        if(min > -1)
-                           hoardFound.blogpoints -= smallIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.blogpoints += smallIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incblogmascotpoints" || type == "decblogmascotpoints")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.blogmascotpoints - smallIncrement
-                        if(min > -1)
-                           hoardFound.blogmascotpoints -= smallIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.blogmascotpoints += smallIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incemeraldvalue" || type == "decemeraldvalue")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.emeraldvalue - largeIncrement
-                        if(min > -100)
-                           hoardFound.emeraldvalue -= largeIncrement
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.emeraldvalue += largeIncrement
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               elsif(type == "incemeraldrate" || type == "decemeraldrate")
-                  price = hoardFound.unallocatedpoints - 400
-                  if(price >= 0)
-                     if(status == "Decrease")
-                        min = hoardFound.emeraldrate - 0.001
-                        if(min > -0.001)
-                           hoardFound.emeraldrate -= 0.001
-                           hoardFound.unallocatedpoints -= 400
-                           @dragonhoard = hoardFound
-                           @dragonhoard.save
-                        end
-                     else
-                        hoardFound.emeraldrate += 0.001
-                        hoardFound.unallocatedpoints -= 400
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     end
-                     redirect_to dragonhoards_path
-                  else
-                     flash[:error] = "Insufficient funds"
-                     redirect_to dragonhoards_path
-                  end
-               end
-            else
-               redirect_to root_path
-            end
-         else
-            redirect_to root_path
-         end
-      end
-
-      def indexCommons
-         allHoards = Dragonhoard.order("created_on desc")
-         @dragonhoards = Kaminari.paginate_array(allHoards).page(getHoardParams("Page")).per(10)
-      end
-
       def getHoardParams(type)
          value = ""
          if(type == "Id")
             value = params[:id]
          elsif(type == "Hoard")
             value = params.require(:dragonhoard).permit(:name, :message, :dragonimage, :remote_dragonimage_url,
-            :dragonimage_cache, :ogg, :remote_ogg_url, :ogg_cache, :mp3, :remote_mp3_url, :mp3_cache, :denholiday)
+            :dragonimage_cache, :ogg, :remote_ogg_url, :ogg_cache, :mp3, :remote_mp3_url, :mp3_cache,
+            :basecost, :baserate)
          elsif(type == "Page")
             value = params[:page]
          else
             raise "Invalid type detected!"
          end
          return value
+      end
+
+      def vacationFunds
+         allPouches = Pouch.all
+         vacation = 0
+         pouches = allPouches.select{|pouch| pouch.privilege != "Bot" && pouch.privilege != "Glitchy" && pouch.privilege != "Admin" && pouch.amount > 0}
+         pouches.each do |pouch|
+            points = (pouch.amount * 0.30).round
+            vacation += points
+            pouch.amount -= points
+            @pouch = pouch
+            @pouch.save
+         end
+         return vacation
+      end
+
+      def getEmeraldPrice(type)
+         price = 0
+         if(type == "Buy")
+            emeraldcost = Fieldcost.find_by_name("Emeraldpoints")
+            emeraldrate = Ratecost.find_by_name("Emeraldrate")
+            price = (emeraldcost.amount * emeraldrate.amount).round
+         elsif(type == "Create")
+            hoard = Dragonhoard.find_by_id(1)
+            price = (hoard.basecost * hoard.baserate).round
+         else
+            flash[:error] = "Invalid selection!"
+            redirect_to root_path
+         end
+         return price
+      end
+
+      def indexCommons
+         hoard = Dragonhoard.find_by_id(1)
+         @dragonhoard = hoard
+         fieldcosts = hoard.fieldcosts
+         @fieldcosts = Kaminari.paginate_array(fieldcosts).page(getHoardParams("Page")).per(10)
+         ratecosts = hoard.ratecosts
+         @ratecosts = Kaminari.paginate_array(ratecosts).page(getHoardParams("Page")).per(10)
+         dreyores = hoard.dreyores
+         @dreyores = Kaminari.paginate_array(dreyores).page(getHoardParams("Page")).per(10)
       end
 
       def mode(type)
@@ -383,7 +81,8 @@ module DragonhoardsHelper
                hoardFound = Dragonhoard.find_by_id(getHoardParams("Id"))
                if(hoardFound)
                   logged_in = current_user
-                  if(logged_in && (logged_in.pouch.privilege == "Admin" || logged_in.pouch.privilege == "Glitchy"))
+                  if(logged_in && logged_in.pouch.privilege == "Glitchy")
+                     hoardFound.updated_on = currentTime
                      @dragonhoard = hoardFound
                      if(type == "update")
                         if(@dragonhoard.update_attributes(getHoardParams("Hoard")))
@@ -399,72 +98,36 @@ module DragonhoardsHelper
                else
                   redirect_to root_path
                end
-            elsif(type == "convertpoints")
-               hoardFound = Dragonhoard.find_by_id(1)
-               if(hoardFound)
+            elsif(type == "withdraw" || type == "convertpoints")
+               hoard = Dragonhoard.find_by_id(1)
+               if(hoard)
                   logged_in = current_user
-                  if(logged_in && ((logged_in.pouch.privilege == "Admin") || (logged_in.pouch.privilege == "Glitchy")))
-                     price = hoardFound.unallocatedpoints - hoardFound.conversioncost
-                     if(price >= 0)
-                        hoardFound.contestpoints += hoardFound.pointscreated
-                        hoardFound.unallocatedpoints -= hoardFound.conversioncost
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                        redirect_to dragonhoards_path
+                  if(logged_in && logged_in.pouch.privilege == "Glitchy")
+                     if(type == "withdraw")
+                        if(hoard.profit > 0)
+                           #Add points to the treasury
+                           hoard.treasury += hoard.profit
+                           flash[:success] = "#{hoard.profit} points have been added to the treasury!"
+                           hoard.profit = 0
+                           @dragonhoard = hoard
+                           @dragonhoard.save
+                        else
+                           flash[:error] = "No points are stored in profit!"
+                        end
                      else
-                        flash[:error] = "Insufficient funds"
-                        redirect_to dragonhoards_path
+                        price = hoard.treasury - hoard.basecost
+                        if(price > -1)
+                           #Add econ here later
+                           fieldcostFound = Fieldcost.find_by_name("Contestinc")
+                           hoard.contestpoints += fieldcostFound.amount
+                           hoard.treasury = price
+                           flash[:success] = "Treasury points converted successfully to contestpoints!"
+                           @dragonhoard = hoard
+                           @dragonhoard.save
+                        else
+                           flash[:error] = "Treasury doesn't have enough points for conversion!"
+                        end
                      end
-                  else
-                     redirect_to root_path
-                  end
-               else
-                  redirect_to root_path
-               end
-            elsif(type == "inctaxbase" || type == "inctaxinc" || type == "inccolorschemepoints" || type == "inccolorschemecleanup" || type == "incconversioncost" || type == "incpointscreated" || type == "incblogadbannercost" || type == "incbloglargeimagecost" || type == "incblogsmallimagecost" || type == "incblogmusiccost" || type == "incblogpoints" || type == "incblogmascotpoints" || type == "incemeraldvalue" || type == "incemeraldrate")
-               increaseAttributes(type, "Increase")
-            elsif(type == "dectaxbase" || type == "dectaxinc" || type == "deccolorschemepoints" || type == "deccolorschemecleanup" || type == "decconversioncost" || type == "decpointscreated" || type == "decblogadbannercost" || type == "decbloglargeimagecost" || type == "decblogsmallimagecost" || type == "decblogmusiccost" || type == "decblogpoints" || type == "decblogmascotpoints" || type == "decemeraldvalue" || type == "decemeraldrate")
-               increaseAttributes(type, "Decrease")
-            elsif(type == "buyemeralds")
-               hoardFound = Dragonhoard.find_by_id(1)
-               if(hoardFound)
-                  logged_in = current_user
-                  if(logged_in)
-                     emeraldCost = hoardFound.emeraldvalue * hoardFound.emeraldrate
-                     profit = emeraldCost * 0.05
-                     price = logged_in.pouch.amount - emeraldCost
-                     if(price >= 0)
-                        logged_in.pouch.amount = price
-                        logged_in.pouch.emeraldamount += 1
-                        hoardFound.profit += profit
-                        @pouch = logged_in.pouch
-                        @pouch.save
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                        flash[:success] = "Congratulations you have purchased an emerald!"
-                        redirect_to dragonhoards_path
-                     else
-                        flash[:error] = "Insufficient funds"
-                        redirect_to dragonhoards_path
-                     end
-                  else
-                     redirect_to root_path
-                  end
-               else
-                  redirect_to root_path
-               end
-            elsif(type == "withdraw")
-               hoardFound = Dragonhoard.find_by_id(1)
-               if(hoardFound)
-                  logged_in = current_user
-                  if(logged_in && (logged_in.pouch.privilege == "Admin" || logged_in.pouch.privilege == "Glitchy"))
-                     #Adds the collected points to the treasury
-                     points = hoardFound.profit
-                     hoardFound.unallocatedpoints += points
-                     hoardFound.profit -= points
-                     @dragonhoard = hoardFound
-                     @dragonhoard.save
-                     flash[:success] = "#{points} points have been added to the treasury!"
                      redirect_to dragonhoards_path
                   else
                      redirect_to root_path
@@ -472,31 +135,101 @@ module DragonhoardsHelper
                else
                   redirect_to root_path
                end
-            elsif(type == "addore")
-               hoardFound = Dragonhoard.find_by_id(1)
-               if(hoardFound)
-                  logged_in = current_user
-                  if(logged_in && (logged_in.pouch.privilege == "Admin" || logged_in.pouch.privilege == "Glitchy"))
-                     if(hoardFound.dreyterrium_start < 200 && getDreyterriumLeft == 0)
-                        #Increases the dreyterrium available
-                        hoardFound.dragonhoard.dreyterrium_start += 10
-                        hoardFound.unallocatedpoints -= 200
-                        if(hoardFound.dreyterrium_extracted != 0)
-                           hoardFound.dreyterrium_extracted = 0
+            elsif(type == "createemeralds" || type == "buyemeralds")
+               hoard = Dragonhoard.find_by_id(1)
+               logged_in = current_user
+               if(hoard && logged_in)
+                  if(type == "createemeralds")
+                     if(logged_in.pouch.privilege == "Glitchy")
+                        price = (hoard.basecost * hoard.baserate).round
+                        if(hoard.treasury - price > -1)
+                           #Add an econ later
+                           hoard.emeralds += 1
+                           hoard.treasury -= price
+                           @dragonhoard = hoard
+                           @dragonhoard.save
+                           flash[:success] = "A new emerald was added to the dragonhoard!"
+                        else
+                           flash[:error] = "Treasury doesn't have enough points to create emeralds!"
                         end
-                        if(hoardFound.dreyterriumcurrent_value != hoardFound.dreyterriumbasepoints)
-                           hoardFound.dreyterriumcurrent_value = hoardFound.dreyterriumbasepoints
-                        end
-                        flash[:success] = "New Dreyterrium was successfully added."
-                        @dragonhoard = hoardFound
-                        @dragonhoard.save
-                     else
-                        flash[:error] = "There is still Dreyterrium left or you hit the max."
                         redirect_to dragonhoards_path
+                     else
+                        redirect_to root_path
                      end
                   else
-                     redirect_to root_path
+                     emeraldcost = Fieldcost.find_by_name("Emeraldpoints")
+                     emeraldrate = Ratecost.find_by_name("Emeraldrate")
+                     price = (emeraldcost.amount * emeraldrate.amount).round
+                     if(hoard.emeralds > 0)
+                        if(logged_in.pouch.amount - price > -1)
+                           #Add an econ later
+                           logged_in.pouch.amount -= price
+                           logged_in.pouch.emeraldamount += 1
+                           hoard.emeralds -= 1
+                           profit = (price * 0.60).round
+                           hoard.profit += profit
+                           @pouch = logged_in.pouch
+                           @pouch.save
+                           @dragonhoard = hoard
+                           @dragonhoard.save
+                           flash[:success] = "#{logged_in.vname} bought an emerald!"
+                        else
+                           flash[:error] = "#{logged_in.vname} can't afford to purchase an emerald!"
+                        end
+                     else
+                        flash[:error] = "The dragonhoard has no emeralds!"
+                     end
+                     redirect_to dragonhoards_path
                   end
+               else
+                  redirect_to root_path
+               end
+            elsif(type == "vacationmode" || type == "getvacationpoints" || type == "transfer")
+               #Eventually have a setting to remove points from vacation to go to treasury
+               hoard = Dragonhoard.find_by_id(1)
+               logged_in = current_user
+               if(hoard && (logged_in && logged_in.pouch.privilege == "Glitchy"))
+                  if(type == "vacationmode")
+                     if(hoard.denholiday)
+                        hoard.denholiday = false
+                        #Returns from vacation
+                        #Should reduce vacation points
+                        points = (hoard.vacationpoints * 0.40).round
+                        hoard.vacationpoints = points
+                        flash[:success] = "Glitchy has now returned from his vacation!"
+                     else
+                        hoard.denholiday = true
+                        hoard.vacationpoints = vacationFunds
+                        flash[:success] = "Glitchy is now on vacation!"
+                     end
+                  else
+                     if(!hoard.denholiday)
+                        if(type == "getvacationpoints")
+                           if(hoard.vacationpoints > 0)
+                              points = hoard.vacationpoints
+                              hoard.treasury += points
+                              hoard.vacationpoints = 0
+                              flash[:success] = "#{points} vacationpoints were added to the treasury!"
+                           else
+                              flash[:error] = "There are no vacationpoints to add!"
+                           end
+                        else
+                           if(hoard.contestpoints > 0)
+                              points = hoard.contestpoints
+                              logged_in.pouch.amount += points
+                              hoard.contestpoints = 0
+                              flash[:success] = "#{points} contestpoints were transfered to Glitchy!"
+                              @pouch = logged_in.pouch
+                              @pouch.save
+                           else
+                              flash[:error] = "There are no contestpoints to transfer!"
+                           end
+                        end
+                     end
+                  end
+                  @dragonhoard = hoard
+                  @dragonhoard.save
+                  redirect_to dragonhoards_path
                else
                   redirect_to root_path
                end

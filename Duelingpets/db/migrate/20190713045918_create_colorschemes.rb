@@ -5,6 +5,7 @@ class CreateColorschemes < ActiveRecord::Migration[5.2]
       t.string :colortype
       t.text :description
       t.datetime :created_on
+      t.datetime :updated_on
       t.integer :user_id
       t.boolean :activated, default: false
       t.boolean :democolor, default: false

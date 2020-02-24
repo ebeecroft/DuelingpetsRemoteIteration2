@@ -15,6 +15,14 @@
     <%= form.text_field :name %>
   </div>
   <div class="pageformat">
+    <%= form.label :basecost %>
+    <%= form.number_field :basecost %>
+  </div>
+  <div class="pageformat">
+    <%= form.label :baserate %>
+    <%= form.text_field :baserate %>
+  </div>
+  <div class="pageformat">
     <%= form.label :message %>
     <%= form.text_area :message %>
   </div>
@@ -53,10 +61,6 @@
     <%= form.label :remote_mp3_url, "or Mp3 URL" %><br />
     <%= form.text_field :remote_mp3_url %>
     <%= form.hidden_field :mp3_cache %>
-  </div>
-  <div class="pageformat">
-    <%= form.label :denholiday %>
-    <%= form.check_box :denholiday %>
   </div>
   <div class="pageformat">
     <%= form.submit class: "button submitbutton" %>
