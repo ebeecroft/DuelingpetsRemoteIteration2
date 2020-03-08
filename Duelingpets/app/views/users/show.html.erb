@@ -36,6 +36,8 @@
       <p>Birthday: <%= displayBirthday(@user) %></p>
       <% if current_user.pouch.privilege == "Admin" || current_user.id == @user.id %>
          <p>Email: <%= @user.email %></p>
+         <p>Account type: <%= @user.accounttype.name %></p>
+         <p>Shared: <%= @user.shared %></p>
          <p>Pouch: <%= @user.pouch.amount %>/<%= getUpgradeLimit(@user.pouch, "Pouch") %> points</p>
          <p>
          <div class="container">Dreyterrium: <%= @user.pouch.dreyterriumamount %>/<%= getUpgradeLimit(@user.pouch, "Dreyterrium") %></div> <div class="container"><%= button_to 'Extract', users_extractore_path(:id=>@user.id), method: :post, class: "button submitbutton" %></div>
@@ -71,6 +73,16 @@
    <% end %>
    <br>
    <p>Vname: <%= displayVname(@user) %></p>
+   <% if(@user.vname != "none") %>
+      <% if !@user.referral.nil? %>
+         <p class="formlinks">Referred by: <%= getUserPrivilege(@user.referral.referred_by) %><%= link_to @user.referral.referred_by.vname, user_path(@user.referral.referred_by) %></p>
+      <% end %>
+      <% if current_user && current_user.id == @user.id && @user.referral.nil? %>
+         <div class="container"><p class="formlinks">Referred by:</p></div>
+         <div class="container"><%= button_to "By Player", new_user_referral_path(@user), method: :get, class: "button submitbutton" %></div> <div class= "container"><%= button_to "Discoveredit", referrals_discoveredit_path, method: :post, class: "button submitbutton", data: { confirm: 'This means you found the site on your own. Are you sure you want to select it?' } %></div>
+      <% end %>
+   <% end %>
+   <p>Amount of referrals: <%= getReferrals(@user) %></p>
    <% if current_user %>
       <p>Joined: <%= distance_of_time_in_words_to_now @user.joined_on %> ago</p>
       <p>Registered on: <%= distance_of_time_in_words_to_now @user.registered_on %> ago on (<%= @user.registered_on.strftime("%B-%d-%Y") %>)</p>

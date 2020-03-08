@@ -49,8 +49,8 @@ module GameinfosHelper
                logged_in = current_user
                if(logged_in && logged_in.pouch.privilege == "Admin")
                   removeTransactions
-                  allInfos = Gameinfo.order("id desc").page(getInfoParams("Page")).per(10)
-                  @gameinfos = allInfos
+                  allInfos = Gameinfo.order("id desc")
+                  @gameinfos = Kaminari.paginate_array(allInfos).page(getInfoParams("Page")).per(10)
                else
                   redirect_to root_path
                end

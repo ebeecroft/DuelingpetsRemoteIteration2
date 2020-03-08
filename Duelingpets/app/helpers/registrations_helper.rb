@@ -192,6 +192,8 @@ module RegistrationsHelper
          newUser.country = registrationFound.country
          newUser.country_timezone = registrationFound.country_timezone
          newUser.birthday = registrationFound.birthday
+         newUser.accounttype_id = registrationFound.accounttype_id
+         newUser.shared = registrationFound.shared
          initialPassword = "Peaches"
          newUser.password = initialPassword
          newUser.password_confirmation = initialPassword

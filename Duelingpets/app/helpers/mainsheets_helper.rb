@@ -99,7 +99,7 @@ module MainsheetsHelper
                if(logged_in && logged_in.pouch.privilege == "Admin")
                   removeTransactions
                   allMainsheets = Mainsheet.order("updated_on desc, created_on desc")
-                  @mainsheets = allMainsheets.page(getMainsheetParams("Page")).per(10)
+                  @mainsheets = Kaminari.paginate_array(allMainsheets).page(getMainsheetParams("Page")).per(10)
                else
                   redirect_to root_path
                end

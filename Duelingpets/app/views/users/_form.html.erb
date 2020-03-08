@@ -43,6 +43,14 @@
     <%= form.text_field :vname %>
   </div>
   <div class="pageformat">
+    <%= form.label :accounttype_id, "Select Account" %>
+    <%= form.collection_select(:accounttype_id, @accounttypes, :id, :name) %>
+  </div>
+  <div class="pageformat">
+    <%= form.label :shared %>
+    <%= form.check_box :shared %>
+  </div>
+  <div class="pageformat">
     <%= form.label :password %>
     <%= form.password_field :password %>
   </div>

@@ -29,7 +29,7 @@ module RatecostsHelper
                if(type == "index")
                   removeTransactions
                   allRatecosts = Ratecost.order("updated_on desc, created_on desc")
-                  @ratecosts = allRatecosts.page(getRatecostParams("Page")).per(10)
+                  @ratecosts = Kaminari.paginate_array(allRatecosts).page(getRatecostParams("Page")).per(10)
                elsif(type == "new" || type == "create")
                   hoard = Dragonhoard.find_by_id(1)
                   newRatecost = hoard.ratecosts.new

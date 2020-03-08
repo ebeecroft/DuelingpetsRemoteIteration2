@@ -36,7 +36,7 @@ module DreyoresHelper
                if(type == "index")
                   removeTransactions
                   allDreyores = Dreyore.order("updated_on desc, created_on desc")
-                  @dreyores = allDreyores.page(getDreyoreParams("Page")).per(10)
+                  @dreyores = Kaminari.paginate_array(allDreyores).page(getDreyoreParams("Page")).per(10)
                elsif(type == "edit" || type == "update")
                   dreyoreFound = dreyore.find_by_id(getDreyoreParams("Id"))
                   if(dreyoreFound)

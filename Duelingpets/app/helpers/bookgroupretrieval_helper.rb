@@ -47,7 +47,7 @@ module BookgroupretrievalHelper
       def getBookGroups(name)
          allUsers = User.all
          currentDate = Date.today
-         nonBot = allUsers.select{|user| ((user.pouch.privilege != "Bot") && (user.pouch.privilege != "Trial")) && (user.pouch.privilege != "Admin")}
+         nonBot = allUsers.select{|user| ((user.pouch.privilege != "Bot") && (user.pouch.privilege != "Trial")) && ((user.pouch.privilege != "Admin") && (user.pouch.privilege != "Glitchy"))}
 
          #Group values
          lizardo = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 7.years}

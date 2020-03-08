@@ -13,6 +13,7 @@ class Registration < ApplicationRecord
    validates :country, presence: true, format: {with: VALID_NAME_REGEX}
    validates :country_timezone, presence: true
    validates :birthday, presence: true
+   validates :message, presence: true
    validates :vname, presence: true, format: {with: VALID_VNAME_REGEX}, uniqueness: { case_sensitive: false}
    validates :login_id, presence: true, format: {with: VALID_VNAME_REGEX}, uniqueness: { case_sensitive: false}
 

@@ -7,12 +7,14 @@ class User < ApplicationRecord
    has_many :items, :foreign_key => "user_id", :dependent => :destroy
 
    #Relationships for user information
-   has_one :accounttype, :foreign_key => "user_id", :dependent => :destroy
+   belongs_to :accounttype, optional: true
    has_one :pouch, :foreign_key => "user_id", :dependent => :destroy
    has_one :userinfo, :foreign_key => "user_id", :dependent => :destroy
    has_one :gameinfo, :foreign_key => "user_id", :dependent => :destroy
    has_many :economies, :foreign_key => "user_id", :dependent => :destroy
    has_many :suspendedtimelimits, :foreign_key => "user_id", :dependent => :destroy
+   has_many :referrals, :foreign_key => "referred_by_id", :dependent => :destroy
+   has_one :referral, :foreign_key => "user_id", :dependent => :destroy
 
    #Relationships for communication
    has_one :shoutbox, :foreign_key => "user_id", :dependent => :destroy

@@ -106,7 +106,7 @@ module SoundsHelper
                if(logged_in && logged_in.pouch.privilege == "Admin")
                   removeTransactions
                   allSounds = Sound.order("updated_on desc, created_on desc")
-                  @sounds = allSounds.page(getSoundParams("Page")).per(10)
+                  @sounds = Kaminari.paginate_array(allSounds).page(getSoundParams("Page")).per(10)
                else
                   redirect_to root_path
                end

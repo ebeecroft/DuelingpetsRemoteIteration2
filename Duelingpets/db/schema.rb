@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_16_070301) do
+ActiveRecord::Schema.define(version: 2020_02_26_042331) do
 
   create_table "accounttypes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -495,6 +495,14 @@ ActiveRecord::Schema.define(version: 2020_02_16_070301) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "referrals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.datetime "created_on"
+    t.integer "user_id"
+    t.integer "referred_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
@@ -617,26 +625,12 @@ ActiveRecord::Schema.define(version: 2020_02_16_070301) do
   end
 
   create_table "userupgrades", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "pouchbase"
-    t.integer "pouchinc"
-    t.integer "pouchcost"
-    t.integer "pouchmax"
-    t.integer "emeraldbase"
-    t.integer "emeraldinc"
-    t.integer "emeraldcost"
-    t.integer "emeraldmax"
-    t.integer "ocbase"
-    t.integer "ocinc"
-    t.integer "occost"
-    t.integer "ocmax"
-    t.integer "blogbase"
-    t.integer "bloginc"
-    t.integer "blogcost"
-    t.integer "blogmax"
-    t.integer "dreyterriumbase"
-    t.integer "dreyterriuminc"
-    t.integer "dreyterriumcost"
-    t.integer "dreyterriummax"
+    t.string "name"
+    t.integer "base"
+    t.integer "baseinc"
+    t.integer "price"
+    t.integer "freecap"
+    t.integer "membercap"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

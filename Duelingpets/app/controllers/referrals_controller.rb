@@ -1,5 +1,5 @@
-class UserupgradesController < ApplicationController
-   include UserupgradesHelper
+class ReferralsController < ApplicationController
+   include ReferralsHelper
 
    def index
       mode "index"
@@ -19,5 +19,9 @@ class UserupgradesController < ApplicationController
 
    def update
       mode "update"
+   end
+
+   def discoveredit
+      mode "discoveredit"
    end
 end

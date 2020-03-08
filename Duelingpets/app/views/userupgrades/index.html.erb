@@ -4,8 +4,9 @@
    <br>
 <% end %>
 <% @userupgrades.each do |userupgrade| %>
-   <div class="pageformat"><div class="container">Pouch base: <%= userupgrade.pouchbase %></div> <div class="container"><%= button_to 'Edit', edit_userupgrade_path(userupgrade), method: :get, class: "button editbutton" %></div></div>
    <div class="pageformat">
+      <div class="container">Pouch base: <%= userupgrade.pouchbase %></div> <div class="container"><%= button_to 'Edit', edit_userupgrade_path(userupgrade), method: :get, class: "button editbutton" %></div>
+      <br>
       <p>Pouch inc: <%= userupgrade.pouchinc %></p>
       <p>Pouch cost: <%= userupgrade.pouchcost %></p>
       <p>Pouch max: <%= userupgrade.pouchmax %></p>
@@ -24,4 +25,6 @@
    </div>
    <br>
 <% end %>
+<p class="pageformat"><%= button_to "New Userupgrade", new_userupgrade_path, method: :get, class: "button submitbutton" %></p>
+<br>
 <p class="formlinks"><%= link_to 'Back', root_path %></p>

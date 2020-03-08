@@ -1,6 +1,18 @@
 module InventoriesHelper
 
    private
+      def getInventoryParams(type)
+         value = ""
+         if(type == "Id")
+            value = params[:id]
+         elsif(type == "Page")
+            value = params[:page]
+         else
+            raise "Invalid type detected!"
+         end
+         return value
+      end
+
       def mode(type)
          if(timeExpired)
             logout_user
@@ -10,14 +22,13 @@ module InventoriesHelper
                logged_in = current_user
                if(logged_in && logged_in.pouch.privilege == "Admin")
                   removeTransactions
-                  #Remember to come back and add Kaminari to this!
                   allInventories = Inventory.order("id desc")
-                  @inventories = allInventories
+                  @inventories = Kaminari.paginate_array(allInventories).page(getInventoryParams("Page")).per(10)
                else
                   redirect_to root_path
                end
             elsif(type == "show")
-               inventoryFound = Inventory.find_by_id(params[:id])
+               inventoryFound = Inventory.find_by_id(getInventoryParams("Id"))
                logged_in = current_user
                if(inventoryFound && logged_in)
                   if(logged_in.id == inventoryFound.user_id)

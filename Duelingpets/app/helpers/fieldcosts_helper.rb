@@ -29,7 +29,7 @@ module FieldcostsHelper
                if(type == "index")
                   removeTransactions
                   allFieldcosts = Fieldcost.order("updated_on desc, created_on desc")
-                  @fieldcosts = allFieldcosts.page(getFieldcostParams("Page")).per(10)
+                  @fieldcosts = Kaminari.paginate_array(allFieldcosts).page(getFieldcostParams("Page")).per(10)
                elsif(type == "new" || type == "create")
                   hoard = Dragonhoard.find_by_id(1)
                   newFieldcost = hoard.fieldcosts.new

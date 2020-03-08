@@ -1,5 +1,11 @@
 module UsersHelper
    private
+      def getReferrals(user)
+         allReferrals = Referral.order("created_on desc")
+         value = allReferrals.select{|referral| referral.referred_by_id == user.id}
+         return value.count
+      end
+
       def getBanned(user)
          allBanned = Suspendedtimelimit.order("created_on desc")
          user = allBanned.select{|banned| banned.user_id == user.id}
@@ -137,6 +143,8 @@ module UsersHelper
             if(logged_in && ((logged_in.id == userFound.id) || logged_in.pouch.privilege == "Admin"))
                @user = userFound
                if(type == "update")
+                  allAccounts = Accounttype.order("created_on desc")
+                  @accounttypes = allAccounts
                   if(@user.update(user_params))
                      flash[:success] = "#{@user.vname} was successfully updated."
                      redirect_to user_path(@user)

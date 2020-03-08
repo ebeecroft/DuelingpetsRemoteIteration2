@@ -95,7 +95,7 @@ module SubsheetsHelper
                if(logged_in && logged_in.pouch.privilege == "Admin")
                   removeTransactions
                   allSubsheets = Subsheet.order("updated_on desc, created_on desc")
-                  @subsheets = allSubsheets.page(getSubsheetParams("Page")).per(10)
+                  @subsheets = Kaminari.paginate_array(allSubsheets).page(getSubsheetParams("Page")).per(10)
                else
                   redirect_to root_path
                end
