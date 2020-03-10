@@ -79,7 +79,7 @@ module ReferralsHelper
                               @pouch.save
 
                               #Emails the user about the new referral
-                              #ContentMailer.content_created(@referral, "Referral", pointsForReferral).deliver_now
+                              ContentMailer.content_created(@referral, "Referral", pointsForReferral).deliver_now
                               flash[:success] = "#{@referral.referred_by.vname} successfully referred someone!"
                               redirect_to user_path(@user)
                            else
@@ -152,7 +152,7 @@ module ReferralsHelper
                      @pouch.save
 
                      #Emails the user about the new referral
-                     #ContentMailer.content_created(@referral, "Referral", pointsForReferral).deliver_now
+                     ContentMailer.content_created(@referral, "Referral", pointsForReferral).deliver_now
                      flash[:success] = "#{@referral.referred_by.vname} successfully referred someone!"
                      redirect_to user_path(@user)
                   else
