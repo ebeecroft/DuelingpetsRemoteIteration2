@@ -105,7 +105,7 @@ module MainsheetsHelper
                end
             elsif(type == "new" || type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               jukeboxMode = Maintenancemode.find_by_id(6)
+               jukeboxMode = Maintenancemode.find_by_id(11)
                if(allMode.maintenance_on || jukeboxMode.maintenance_on)
                   if(allMode.maintenance_on)
                      render "/start/maintenance"
@@ -149,7 +149,7 @@ module MainsheetsHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  jukeboxMode = Maintenancemode.find_by_id(6)
+                  jukeboxMode = Maintenancemode.find_by_id(11)
                   if(allMode.maintenance_on || jukeboxMode.maintenance_on)
                      if(allMode.maintenance_on)
                         render "/start/maintenance"
@@ -162,7 +162,7 @@ module MainsheetsHelper
                end
             elsif(type == "show" || type == "destroy")
                allMode = Maintenancemode.find_by_id(1)
-               jukeboxMode = Maintenancemode.find_by_id(6)
+               jukeboxMode = Maintenancemode.find_by_id(11)
                if(allMode.maintenance_on || jukeboxMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      showCommons(type)

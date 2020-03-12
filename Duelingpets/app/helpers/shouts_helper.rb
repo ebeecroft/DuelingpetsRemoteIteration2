@@ -80,7 +80,7 @@ module ShoutsHelper
                end
             elsif(type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               userMode = Maintenancemode.find_by_id(5)
+               userMode = Maintenancemode.find_by_id(6)
                if(allMode.maintenance_on || userMode.maintenance_on)
                   if(allMode.maintenance_on)
                     render "start/maintenance"
@@ -124,7 +124,7 @@ module ShoutsHelper
                   destroyCommons(logged_in)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  userMode = Maintenancemode.find_by_id(5)
+                  userMode = Maintenancemode.find_by_id(6)
                   if(allMode.maintenance_on || userMode.maintenance_on)
                      if(allMode.maintenance_on)
                         render "start/maintenance"

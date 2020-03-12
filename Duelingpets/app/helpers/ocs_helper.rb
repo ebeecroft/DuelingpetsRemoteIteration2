@@ -111,7 +111,7 @@ module OcsHelper
             if(type == "index") #Guests
                removeTransactions
                allMode = Maintenancemode.find_by_id(1)
-               ocMode = Maintenancemode.find_by_id(6)
+               ocMode = Maintenancemode.find_by_id(8)
                if(allMode.maintenance_on || ocMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      indexCommons
@@ -127,7 +127,7 @@ module OcsHelper
                end
             elsif(type == "new" || type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               ocMode = Maintenancemode.find_by_id(6)
+               ocMode = Maintenancemode.find_by_id(8)
                if(allMode.maintenance_on || ocMode.maintenance_on)
                   if(allMode.maintenance_on)
                      render "/start/maintenance"
@@ -178,7 +178,7 @@ module OcsHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  ocMode = Maintenancemode.find_by_id(6)
+                  ocMode = Maintenancemode.find_by_id(8)
                   if(allMode.maintenance_on || ocMode.maintenance_on)
                      if(allMode.maintenance_on)
                         render "/start/maintenance"
@@ -191,7 +191,7 @@ module OcsHelper
                end
             elsif(type == "show" || type == "destroy")
                allMode = Maintenancemode.find_by_id(1)
-               blogMode = Maintenancemode.find_by_id(6)
+               ocMode = Maintenancemode.find_by_id(8)
                if(allMode.maintenance_on || ocMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      showCommons(type)

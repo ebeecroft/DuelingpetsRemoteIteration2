@@ -146,7 +146,7 @@ module PouchesHelper
                pouchFound = Pouch.find_by_id(params[:id])
                if(pouchFound)
                   logged_in = current_user
-                  if(logged_in && ((pouchFound.user_id == logged_in.id) || logged_in.pouch.privilege == "Admin"))
+                  if(logged_in && logged_in.pouch.privilege == "Admin")
                      @pouch = pouchFound
                      if(type == "update")
                         if(@pouch.update(pouch_params))

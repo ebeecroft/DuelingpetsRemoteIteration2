@@ -63,7 +63,7 @@ module UserinfosHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  userMode = Maintenancemode.find_by_id(5)
+                  userMode = Maintenancemode.find_by_id(6)
                   if(allMode.maintenance_on || userMode.maintenance_on)
                      if(allMode.maintenance_on)
                         #the render section

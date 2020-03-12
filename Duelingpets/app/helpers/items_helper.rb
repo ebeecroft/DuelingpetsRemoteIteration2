@@ -139,7 +139,7 @@ module ItemsHelper
             if(type == "index") #Guests
                removeTransactions
                allMode = Maintenancemode.find_by_id(1)
-               itemMode = Maintenancemode.find_by_id(6)
+               itemMode = Maintenancemode.find_by_id(9)
                if(allMode.maintenance_on || itemMode.maintenance_on)
                   if(current_user && current_user.admin)
                      indexCommons
@@ -155,7 +155,7 @@ module ItemsHelper
                end
             elsif(type == "new" || type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               itemMode = Maintenancemode.find_by_id(6)
+               itemMode = Maintenancemode.find_by_id(9)
                if(allMode.maintenance_on || itemMode.maintenance_on)
                   if(allMode.maintenance_on)
                      render "/start/maintenance"
@@ -208,7 +208,7 @@ module ItemsHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  itemMode = Maintenancemode.find_by_id(6)
+                  itemMode = Maintenancemode.find_by_id(9)
                   if(allMode.maintenance_on || itemMode.maintenance_on)
                      if(allMode.maintenance_on)
                         render "/start/maintenance"
@@ -221,7 +221,7 @@ module ItemsHelper
                end
             elsif(type == "show" || type == "destroy")
                allMode = Maintenancemode.find_by_id(1)
-               itemMode = Maintenancemode.find_by_id(6)
+               itemMode = Maintenancemode.find_by_id(9)
                if(allMode.maintenance_on || itemMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      showCommons(type)

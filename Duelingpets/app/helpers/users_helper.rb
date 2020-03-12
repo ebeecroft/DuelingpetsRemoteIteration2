@@ -180,7 +180,7 @@ module UsersHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  userMode = Maintenancemode.find_by_id(5)
+                  userMode = Maintenancemode.find_by_id(6)
                   if(allMode.maintenance_on || userMode.maintenance_on)
                      if(allMode.maintenance_on)
                         #the render section
@@ -198,7 +198,7 @@ module UsersHelper
                   showCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  userMode = Maintenancemode.find_by_id(5)
+                  userMode = Maintenancemode.find_by_id(6)
                   if(allMode.maintenance_on || userMode.maintenance_on)
                      if(allMode.maintenance_on)
                         #the render section
@@ -225,7 +225,7 @@ module UsersHelper
                      box.box_open = true
                   end
 
-                  #Hopefully this works for both
+                  #Sets the value of the pmbox and shoutbox
                   @box = box
                   @box.save
                   redirect_to user_path(@box.user)
@@ -237,7 +237,7 @@ module UsersHelper
                   musicCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  userMode = Maintenancemode.find_by_id(5)
+                  userMode = Maintenancemode.find_by_id(6)
                   if(allMode.maintenance_on || userMode.maintenance_on)
                      if(allMode.maintenance_on)
                         #the render section

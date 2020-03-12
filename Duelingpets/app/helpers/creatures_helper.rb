@@ -47,6 +47,7 @@ module CreaturesHelper
       def getPetCalc(creature)
          if(!creature.hp.nil? && !creature.atk.nil? && !creature.def.nil? && !creature.agility.nil? && !creature.strength.nil? && !creature.mp.nil? && !creature.matk.nil? && !creature.mdef.nil? && !creature.magi.nil? && !creature.mstr.nil? && !creature.hunger.nil? && !creature.thirst.nil? && !creature.fun.nil? && !creature.lives.nil? && !creature.rarity.nil? && !creature.petworth.nil? && !creature.creaturetype.basecost.nil?)
             #Application that calculates level and cost
+            #Rework this area
             results = `public/Resources/Code/petcalc/calc #{creature.hp} #{creature.atk} #{creature.def} #{creature.agility} #{creature.strength} #{creature.mp} #{creature.matk} #{creature.mdef} #{creature.magi} #{creature.mstr} #{creature.hunger} #{creature.thirst} #{creature.fun} #{creature.lives} #{creature.rarity} #{creature.petworth} #{creature.creaturetype.basecost}`
             petAttributes = results.split(",")
             petCost, petLevel = petAttributes.map{|str| str.to_i}
@@ -171,7 +172,7 @@ module CreaturesHelper
             if(type == "index") #Guests
                removeTransactions
                allMode = Maintenancemode.find_by_id(1)
-               creatureMode = Maintenancemode.find_by_id(6)
+               creatureMode = Maintenancemode.find_by_id(10)
                if(allMode.maintenance_on || creatureMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      indexCommons
@@ -187,7 +188,7 @@ module CreaturesHelper
                end
             elsif(type == "new" || type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               creatureMode = Maintenancemode.find_by_id(6)
+               creatureMode = Maintenancemode.find_by_id(10)
                if(allMode.maintenance_on || creatureMode.maintenance_on)
                   if(allMode.maintenance_on)
                      render "/start/maintenance"
@@ -243,7 +244,7 @@ module CreaturesHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  creatureMode = Maintenancemode.find_by_id(6)
+                  creatureMode = Maintenancemode.find_by_id(10)
                   if(allMode.maintenance_on || creatureMode.maintenance_on)
                      if(allMode.maintenance_on)
                         render "/start/maintenance"
@@ -256,7 +257,7 @@ module CreaturesHelper
                end
             elsif(type == "show" || type == "destroy")
                allMode = Maintenancemode.find_by_id(1)
-               creatureMode = Maintenancemode.find_by_id(6)
+               creatureMode = Maintenancemode.find_by_id(10)
                if(allMode.maintenance_on || creatureMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      showCommons(type)

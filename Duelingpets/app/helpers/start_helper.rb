@@ -87,10 +87,10 @@ module StartHelper
                firstContent = Registration.first.registered_on.year
             end
          elsif(type == "Referral")
-            #allContents = Referral.all
-            #if(allContents.count != 0)
-               #firstContent = Referral.first.created_on.year
-            #end
+            allContents = Referral.all
+            if(allContents.count != 0)
+               firstContent = Referral.first.created_on.year
+            end
          elsif(type == "Friend")
             #allContents = Friend.all
             #if(allContents.count != 0)
@@ -121,26 +121,26 @@ module StartHelper
             #if(allContents.count != 0)
                #firstContent = Art.first.created_on.year
             #end
-         elsif(type == "Radio")
-            #allContents = Radiostation.all
-            #if(allContents.count != 0)
-               #firstContent = Radiostation.first.created_on.year
-            #end
+         elsif(type == "Jukebox")
+            allContents = Jukebox.all
+            if(allContents.count != 0)
+               firstContent = Jukebox.first.created_on.year
+            end
          elsif(type == "Mainsheet")
-            #allContents = Mainsheet.all
-            #if(allContents.count != 0)
-               #firstContent = Mainsheet.first.created_on.year
-            #end
+            allContents = Mainsheet.all
+            if(allContents.count != 0)
+               firstContent = Mainsheet.first.created_on.year
+            end
          elsif(type == "Subsheet")
-            #allContents = Subfolder.all
-            #if(allContents.count != 0)
-               #firstContent = Subfolder.first.created_on.year
-            #end
+            allContents = Subfolder.all
+            if(allContents.count != 0)
+               firstContent = Subfolder.first.created_on.year
+            end
          elsif(type == "Sound")
-            #allContents = Sound.all
-            #if(allContents.count != 0)
-               #firstContent = Sound.first.created_on.year
-            #end
+            allContents = Sound.all
+            if(allContents.count != 0)
+               firstContent = Sound.first.created_on.year
+            end
          elsif(type == "Channel")
             #allContents = Channel.all
             #if(allContents.count != 0)

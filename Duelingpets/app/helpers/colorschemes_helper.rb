@@ -39,10 +39,9 @@ module ColorschemesHelper
                end
                @colorscheme = colorschemeFound
                if(type == "update")
-                  #This area needs to be fixed
                   if(@colorscheme.update_attributes(params[:colorscheme]))
                      flash[:success] = "#{@colorscheme.name} was successfully updated."
-                     if(logged_in.admin)
+                     if(logged_in.pouch.privilege == "Admin")
                         redirect_to colorschemes_list_path
                      else
                         redirect_to user_colorschemes_path(colorschemeFound.user)
@@ -138,7 +137,7 @@ module ColorschemesHelper
             if(type == "index")
                removeTransactions
                allMode = Maintenancemode.find_by_id(1)
-               userMode = Maintenancemode.find_by_id(5)
+               userMode = Maintenancemode.find_by_id(6)
                if(allMode.maintenance_on || userMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      indexCommons
@@ -154,7 +153,7 @@ module ColorschemesHelper
                end
             elsif(type == "new" || type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               userMode = Maintenancemode.find_by_id(5)
+               userMode = Maintenancemode.find_by_id(6)
                if(allMode.maintenance_on || userMode.maintenance_on)
                   if(allMode.maintenance_on)
                      render "/start/maintenance"
@@ -174,6 +173,7 @@ module ColorschemesHelper
                      @colorscheme = newColorscheme
                      if(type == "create")
                         if(@colorscheme.save)
+                           #Needs to be repaired
                            hoard = Dragonhoard.find_by_id(1)
                            pointsForColors = hoard.colorschemepoints
                            pouchFound = Pouch.find_by_user_id(logged_in.id)
@@ -205,7 +205,7 @@ module ColorschemesHelper
                end
             elsif(type == "edit" || type == "update" || type == "destroy")
                allMode = Maintenancemode.find_by_id(1)
-               userMode = Maintenancemode.find_by_id(5)
+               userMode = Maintenancemode.find_by_id(6)
                if(allMode.maintenance_on || userMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      editCommons(type)
@@ -224,7 +224,7 @@ module ColorschemesHelper
                if(logged_in && logged_in.pouch.privilege == "Admin")
                   removeTransactions
                   allColors = Colorscheme.order("created_on desc")
-                  @colorschemes = allColors.page(getColorParams("Page")).per(10)
+                  @colorschemes = Kaminari.paginate_array(allColors).page(getColorParams("Page")).per(10)
                else
                   redirect_to root_path
                end

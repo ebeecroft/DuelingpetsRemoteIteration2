@@ -242,7 +242,7 @@ module BlogsHelper
             if(type == "index") #Guests
                removeTransactions
                allMode = Maintenancemode.find_by_id(1)
-               blogMode = Maintenancemode.find_by_id(6)
+               blogMode = Maintenancemode.find_by_id(7)
                if(allMode.maintenance_on || blogMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      indexCommons
@@ -258,7 +258,7 @@ module BlogsHelper
                end
             elsif(type == "new" || type == "create")
                allMode = Maintenancemode.find_by_id(1)
-               blogMode = Maintenancemode.find_by_id(6)
+               blogMode = Maintenancemode.find_by_id(7)
                if(allMode.maintenance_on || blogMode.maintenance_on)
                   if(allMode.maintenance_on)
                      render "/start/maintenance"
@@ -327,7 +327,7 @@ module BlogsHelper
                   editCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  blogMode = Maintenancemode.find_by_id(6)
+                  blogMode = Maintenancemode.find_by_id(7)
                   if(allMode.maintenance_on || blogMode.maintenance_on)
                      if(allMode.maintenance_on)
                         render "/start/maintenance"
@@ -340,7 +340,7 @@ module BlogsHelper
                end
             elsif(type == "show" || type == "destroy")
                allMode = Maintenancemode.find_by_id(1)
-               blogMode = Maintenancemode.find_by_id(6)
+               blogMode = Maintenancemode.find_by_id(7)
                if(allMode.maintenance_on || blogMode.maintenance_on)
                   if(current_user && current_user.pouch.privilege == "Admin")
                      showCommons(type)
