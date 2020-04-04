@@ -132,9 +132,9 @@ module StartHelper
                firstContent = Mainsheet.first.created_on.year
             end
          elsif(type == "Subsheet")
-            allContents = Subfolder.all
+            allContents = Subsheet.all
             if(allContents.count != 0)
-               firstContent = Subfolder.first.created_on.year
+               firstContent = Subsheet.first.created_on.year
             end
          elsif(type == "Sound")
             allContents = Sound.all

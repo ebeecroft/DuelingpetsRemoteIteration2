@@ -14,6 +14,8 @@
          <h1>Your new creature <%= @content.name %> was approved!</h1>
       <% elsif @type == "Sound" %>
          <h1>Your new sound <%= @content.title %> was approved!</h1>
+      <% elsif @type == "Chapter" %>
+         <h1>Your new chapter <%= @content.title %> was approved!</h1>
       <% end %>
       <p>
          Our review team has taken the time to do look over
@@ -46,6 +48,12 @@
          <% elsif @type == "Sound" %>
             sound you created is really nice. The other users
             will like it a lot too.
+         <% elsif @type == "Chapter" %>
+            content you have written for this chapter feels as
+            if the characters themselves are going to spring
+            forth from the pages. The voice acting if any is
+            really spot on and sounds quite good. The character
+            art if any looks really cool too.
          <% end %>
          In recognition of your effort we have decided
          to add these <%= @points %> points to your account.

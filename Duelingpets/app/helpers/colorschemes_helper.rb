@@ -60,7 +60,9 @@ module ColorschemesHelper
                         @userinfo.save
                      end
                      hoard = Dragonhoard.find_by_id(1)
-                     cleanupcost = hoard.colorschemecleanup
+                     colorcost = Fieldcost.find_by_name("Colorschemecleanup")
+                     cleanupcost = colorcost.amount
+
                      pouchFound = Pouch.find_by_user_id(logged_in.id)
                      if(logged_in.pouch.privilege == "Admin" || (cleanupcost <= pouchFound.amount))
                         if(logged_in.pouch.privilege != "Admin")
@@ -173,9 +175,9 @@ module ColorschemesHelper
                      @colorscheme = newColorscheme
                      if(type == "create")
                         if(@colorscheme.save)
-                           #Needs to be repaired
-                           hoard = Dragonhoard.find_by_id(1)
-                           pointsForColors = hoard.colorschemepoints
+                           #Adds points to the users pouch
+                           colors = Fieldcost.find_by_name("Colorscheme")
+                           pointsForColors = colors.amount
                            pouchFound = Pouch.find_by_user_id(logged_in.id)
                            pouchFound.amount += pointsForColors
 
@@ -185,7 +187,7 @@ module ColorschemesHelper
                            newTransaction.content_type = "Colorscheme"
                            newTransaction.name = "Source"
                            newTransaction.amount = pointsForColors
-                           newTransaction.user_id = blogFound.user_id
+                           newTransaction.user_id = userFound.id
                            newTransaction.created_on = currentTime
                            @economytransaction = newTransaction
                            @economytransaction.save

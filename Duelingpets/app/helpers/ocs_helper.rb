@@ -237,27 +237,30 @@ module OcsHelper
                         if(type == "approve")
                            ocFound.reviewed = true
                            ocFound.reviewed_on = currentTime
-                           hoard = Dragonhoard.find_by_id(1)
-                           pointsForOcs = hoard.ocpoints
+                           if(!ocFound.pointsreceived)
+                              ocpoints = Fieldcost.find_by_name("OCpoints")
+                              pointsForOC = ocpoints.amount
+                              pouch = Pouch.find_by_user_id(ocFound.user_id)
+                              pouch.amount += pointsForOC
+                              @pouch = pouch
+                              @pouch.save
+
+                              #Adds the oc points to the economy
+                              newTransaction = Economy.new(params[:economy])
+                              newTransaction.econtype = "Content"
+                              newTransaction.content_type = "OC"
+                              newTransaction.name = "Source"
+                              newTransaction.amount = pointsForOC
+                              newTransaction.user_id = ocFound.user_id
+                              newTransaction.created_on = currentTime
+                              @economytransaction = newTransaction
+                              @economytransaction.save
+
+                              ContentMailer.content_approved(ocFound, "OC", pointsForOC).deliver_now
+                              ocFound.pointsreceived = true
+                           end
                            @oc = ocFound
                            @oc.save
-                           pouch = Pouch.find_by_user_id(@oc.user_id)
-                           pouch.amount += pointsForOC
-                           @pouch = pouch
-                           @pouch.save
-
-                           #Adds the oc points to the economy
-                           newTransaction = Economy.new(params[:economy])
-                           newTransaction.econtype = "Content"
-                           newTransaction.content_type = "OC"
-                           newTransaction.name = "Source"
-                           newTransaction.amount = pointsForOC
-                           newTransaction.user_id = ocFound.user_id
-                           newTransaction.created_on = currentTime
-                           @economytransaction = newTransaction
-                           @economytransaction.save
-
-                           ContentMailer.content_approved(@oc, "OC", pointsForOC).deliver_now
                            #allWatches = Watch.all
                            #watchers = allWatches.select{|watch| (((watch.watchtype.name == "Arts" || watch.watchtype.name == "Blogarts") || (watch.watchtype.name == "Artsounds" || watch.watchtype.name == "Artmovies")) || (watch.watchtype.name == "Maincontent" || watch.watchtype.name == "All")) && watch.from_user.id != @art.user_id}
                            #if(watchers.count > 0)

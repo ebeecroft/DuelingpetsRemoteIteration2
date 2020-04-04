@@ -14,6 +14,8 @@
          <h1>Your new creature <%= @content.name %> was denied!</h1>
       <% elsif @type == "Sound" %>
          <h1>Your new sound <%= @content.title %> was denied!</h1>
+      <% elsif @type == "Chapter" %>
+         <h1>Your new chapter <%= @content.title %> was denied!</h1>
       <% end %>
       <p>
          Our review team has taken the time to do look over
@@ -52,6 +54,11 @@
             was set to the wrong type for this type of audio.
             The content may need to be changed just a tad
             before it can be approved.
+         <% elsif @type == "Chapter" %>
+            The chapter may not have fit into the correct
+            bookgroup, or the music and images might not be
+            suitable for our community. The content may need to
+            be changed just a tad before it can be approved.
          <% end %>
          Our review team will get in touch with you to go
          over the specifics. Do not worry these things

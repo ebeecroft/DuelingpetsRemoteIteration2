@@ -221,33 +221,28 @@ module SoundsHelper
                            soundFound.reviewed_on = currentTime
                            updateJukebox(soundFound.subsheet)
 
-                           #Needs a repair
-
-                           #Needs revision
-                           #hoard = Dragonhoard.find_by_id(1)
-                           #pointsForSounds = hoard.soundpoints
-
-                           pointsForSounds = 400 #Temporary fix
-
+                           #Adds the points to the user's pouch
+                           soundpoints = Fieldcost.find_by_name("Sound")
+                           pointsForSound = soundpoints.amount
                            @sound = soundFound
                            @sound.save
                            pouch = Pouch.find_by_user_id(@sound.user_id)
-                           pouch.amount += pointsForSounds
+                           pouch.amount += pointsForSound
                            @pouch = pouch
                            @pouch.save
 
-                           #Adds the oc points to the economy
+                           #Adds the sound points to the economy
                            newTransaction = Economy.new(params[:economy])
                            newTransaction.econtype = "Content"
                            newTransaction.content_type = "Sound"
                            newTransaction.name = "Source"
-                           newTransaction.amount = pointsForSounds
+                           newTransaction.amount = pointsForSound
                            newTransaction.user_id = soundFound.user_id
                            newTransaction.created_on = currentTime
                            @economytransaction = newTransaction
                            @economytransaction.save
 
-                           ContentMailer.content_approved(@sound, "Sound", pointsForSounds).deliver_now
+                           ContentMailer.content_approved(@sound, "Sound", pointsForSound).deliver_now
                            #allWatches = Watch.all
                            #watchers = allWatches.select{|watch| (((watch.watchtype.name == "Arts" || watch.watchtype.name == "Blogarts") || (watch.watchtype.name == "Artsounds" || watch.watchtype.name == "Artmovies")) || (watch.watchtype.name == "Maincontent" || watch.watchtype.name == "All")) && watch.from_user.id != @art.user_id}
                            #if(watchers.count > 0)

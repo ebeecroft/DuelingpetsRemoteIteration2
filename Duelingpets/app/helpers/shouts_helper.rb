@@ -158,11 +158,19 @@ module ShoutsHelper
                      if((logged_in.pouch.privilege == "Admin" || logged_in.pouch.privilege == "Manager") || (logged_in.id == shoutFound.shoutbox.user_id))
                         if(type == "approve")
                            #May add mailers later
-                           shoutFound.reviewed = true
-                           shoutFound.reviewed_on = currentTime
-                           @shout = shoutFound
-                           @shout.save
-                           value = "#{@shout.user.vname}'s shout message #{@shout.message} was approved!"
+                           shoutcost = Fieldcost.find_by_name("Shout")
+                           if(shoutFound.user.pouch.amount - shoutcost.amount >= 0)
+                              shoutFound.user.pouch.amount -= shoutcost.amount
+                              @pouch = shoutFound.user.pouch
+                              @pouch.save
+                              shoutFound.reviewed = true
+                              shoutFound.reviewed_on = currentTime
+                              @shout = shoutFound
+                              @shout.save
+                              value = "#{@shout.user.vname}'s shout message #{@shout.message} was approved!"
+                           else
+                              value = "Insufficient funds for approving this shout!"
+                           end
                         else
                            #May add mailers later
                            @shout = shoutFound

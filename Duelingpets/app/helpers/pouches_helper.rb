@@ -5,24 +5,24 @@ module PouchesHelper
          upgrade = Userupgrade.find_by_id(1)
          cost = 0
          if(type == "Pouch")
-            if(pouch.pouchlevel < upgrade.pouchmax)
-               cost = upgrade.pouchcost * (pouch.pouchlevel + 1)
+            if(pouch.pouchlevel < upgrade.freecap)#upgrade.pouchmax)
+               cost = upgrade.price * (pouch.pouchlevel + 1)
             end
          elsif(type == "OC")
-            if(pouch.oclevel < upgrade.ocmax)
-               cost = upgrade.occost * (pouch.oclevel + 1)
+            if(pouch.oclevel < upgrade.freecap)
+               cost = upgrade.price * (pouch.oclevel + 1)
             end
          elsif(type == "Blog")
-            if(pouch.bloglevel < upgrade.blogmax)
-               cost = upgrade.blogcost * (pouch.bloglevel + 1)
+            if(pouch.bloglevel < upgrade.freecap)
+               cost = upgrade.price * (pouch.bloglevel + 1)
             end
          elsif(type == "Emerald")
-            if(pouch.emeraldlevel < upgrade.emeraldmax)
-               cost = upgrade.emeraldcost * (pouch.emeraldlevel + 1)
+            if(pouch.emeraldlevel < upgrade.freecap)
+               cost = upgrade.price * (pouch.emeraldlevel + 1)
             end
          elsif(type == "Dreyterrium")
-            if(pouch.dreyterriumlevel < upgrade.dreyterriummax)
-               cost = upgrade.dreyterriumcost * (pouch.dreyterriumlevel + 1)
+            if(pouch.dreyterriumlevel < upgrade.freecap)
+               cost = upgrade.price * (pouch.dreyterriumlevel + 1)
             end
          end
          return cost
@@ -32,15 +32,15 @@ module PouchesHelper
          upgrade = Userupgrade.find_by_id(1)
          max = 0
          if(type == "Pouch")
-            max = upgrade.pouchbase + (upgrade.pouchinc * pouch.pouchlevel)
+            max = upgrade.base + (upgrade.baseinc * pouch.pouchlevel)
          elsif(type == "OC")
-            max = upgrade.ocbase + (upgrade.ocinc * pouch.oclevel)
+            max = upgrade.base + (upgrade.baseinc * pouch.oclevel)
          elsif(type == "Blog")
-            max = upgrade.blogbase + (upgrade.bloginc * pouch.bloglevel)
+            max = upgrade.base + (upgrade.baseinc * pouch.bloglevel)
          elsif(type == "Emerald")
-            max = upgrade.emeraldbase + (upgrade.emeraldinc * pouch.emeraldlevel)
+            max = upgrade.base + (upgrade.baseinc * pouch.emeraldlevel)
          elsif(type == "Dreyterrium")
-            max = upgrade.dreyterriumbase + (upgrade.dreyterriuminc * pouch.dreyterriumlevel)
+            max = upgrade.base + (upgrade.baseinc * pouch.dreyterriumlevel)
          end
          return max
       end
@@ -48,16 +48,18 @@ module PouchesHelper
       def getUpgradeMax(type)
          upgrade = Userupgrade.find_by_id(1)
          max = 0
+
+         #Remember to come back to add the membercap
          if(type == "Pouch")
-            max = upgrade.pouchmax
+            max = upgrade.freecap #pouchmax
          elsif(type == "OC")
-            max = upgrade.ocmax
+            max = upgrade.freecap
          elsif(type == "Blog")
-            max = upgrade.blogmax
+            max = upgrade.freecap
          elsif(type == "Emerald")
-            max = upgrade.emeraldmax
+            max = upgrade.freecap
          elsif(type == "Dreyterrium")
-            max = upgrade.dreyterriummax
+            max = upgrade.freecap
          end
          return max
       end

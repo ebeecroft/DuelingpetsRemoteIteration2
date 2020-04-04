@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_042331) do
+ActiveRecord::Schema.define(version: 2020_03_20_025923) do
 
   create_table "accounttypes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -118,6 +118,56 @@ ActiveRecord::Schema.define(version: 2020_02_26_042331) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "books", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "user_id"
+    t.integer "bookgroup_id"
+    t.integer "bookworld_id"
+    t.boolean "collab_mode", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "bookworlds", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "price"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "user_id"
+    t.boolean "open_world", default: false
+    t.boolean "privateworld", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "chapters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "story"
+    t.string "bookcover"
+    t.string "storyscene1"
+    t.string "voice1ogg"
+    t.string "voice1mp3"
+    t.string "voice2ogg"
+    t.string "voice2mp3"
+    t.string "voice3ogg"
+    t.string "voice3mp3"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.datetime "reviewed_on"
+    t.integer "user_id"
+    t.integer "bookgroup_id"
+    t.integer "book_id"
+    t.integer "gchapter_id", default: 1
+    t.boolean "reviewed", default: false
+    t.boolean "pointsreceived", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "colorschemes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "colortype"
@@ -191,7 +241,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_042331) do
     t.boolean "unlimitedlives", default: false
     t.boolean "retiredpet", default: false
     t.boolean "starter", default: false
-    t.integer "petworth"
+    t.integer "emeraldcost"
     t.integer "cost"
     t.datetime "created_on"
     t.datetime "updated_on"
@@ -292,6 +342,13 @@ ActiveRecord::Schema.define(version: 2020_02_26_042331) do
     t.integer "success", default: 0
     t.integer "failure", default: 0
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "gchapters", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_on"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

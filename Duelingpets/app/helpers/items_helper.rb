@@ -18,9 +18,9 @@ module ItemsHelper
       end
 
       def getPetCalc(item)
-         if(!item.hp.nil? && !item.atk.nil? && !item.def.nil? && !item.agility.nil? && !item.strength.nil? && !item.mp.nil? && !item.matk.nil? && !item.mdef.nil? && !item.magi.nil? && !item.mstr.nil? && !item.hunger.nil? && !item.thirst.nil? && !item.fun.nil? && !item.durability.nil? && !item.rarity.nil? && !item.itemworth.nil? && !item.itemtype.basecost.nil?)
+         if(!item.hp.nil? && !item.atk.nil? && !item.def.nil? && !item.agility.nil? && !item.strength.nil? && !item.mp.nil? && !item.matk.nil? && !item.mdef.nil? && !item.magi.nil? && !item.mstr.nil? && !item.hunger.nil? && !item.thirst.nil? && !item.fun.nil? && !item.durability.nil? && !item.rarity.nil? && !item.itemtype.basecost.nil?)
             #Application that calculates cost
-            results = `public/Resources/Code/itemcalc/calc #{item.hp} #{item.atk} #{item.def} #{item.agility} #{item.strength} #{item.mp} #{item.matk} #{item.mdef} #{item.magi} #{item.mstr} #{item.hunger} #{item.thirst} #{item.fun} #{item.durability} #{item.rarity} #{item.itemworth} #{item.itemtype.basecost}`
+            results = `public/Resources/Code/itemcalc/calc #{item.hp} #{item.atk} #{item.def} #{item.agility} #{item.strength} #{item.mp} #{item.matk} #{item.mdef} #{item.magi} #{item.mstr} #{item.hunger} #{item.thirst} #{item.fun} #{item.durability} #{item.rarity} #{item.itemtype.basecost}`
             itemAttributes = results
             itemCost = itemAttributes
             @item = item
@@ -40,7 +40,7 @@ module ItemsHelper
             value = params[:user_id]
          elsif(type == "Item")
             value = params.require(:item).permit(:name, :description, :hp, :atk, :def, :agility, :strength,
-            :mp, :matk, :mdef, :magi, :mstr, :hunger, :thirst, :fun, :rarity, :starter, :itemworth, :itemart, :remote_itemart_url,
+            :mp, :matk, :mdef, :magi, :mstr, :hunger, :thirst, :fun, :rarity, :starter, :emeraldcost, :itemart, :remote_itemart_url,
             :itemart_cache, :itemtype_id, :equipable, :durability)
          elsif(type == "Page")
             value = params[:page]
@@ -267,8 +267,8 @@ module ItemsHelper
                         if(type == "approve")
                            itemFound.reviewed = true
                            itemFound.reviewed_on = currentTime
-                           hoard = Dragonhoard.find_by_id(1)
-                           pointsForItems = hoard.itempoints
+                           itempoints = Fieldcost.find_by_name("Item")
+                           pointsForItems = itempoints.amount
                            @item = itemFound
                            @item.save
                            pouch = Pouch.find_by_user_id(@item.user_id)

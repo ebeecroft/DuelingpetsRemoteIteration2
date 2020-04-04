@@ -32,7 +32,7 @@ class Creature < ApplicationRecord
    validates :fun, presence: true, format: { with: VALID_VALUE_REGEX}
    validates :lives, presence: true, format: { with: VALID_VALUE_REGEX}
    validates :rarity, presence: true, format: { with: VALID_VALUE_REGEX}
-   validates :petworth, presence: true, format: { with: VALID_VALUE_REGEX}
+   validates :emeraldcost, presence: true, format: { with: VALID_VALUE_REGEX}
 
    #Overides the default parameters to use vname in place of the id code
    def to_param

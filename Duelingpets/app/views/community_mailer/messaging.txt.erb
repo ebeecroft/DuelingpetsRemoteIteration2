@@ -13,14 +13,14 @@
    artwork, videos or music tied to this pm. The
    message says: <%= @content.message %>
 <% elsif @type == "PMreply" %>
-   <% if(@content.user_id == @content.pm.user_id)
+   <% if(@content.user_id == @content.pm.user_id) %>
       Hi there <%= @content.pm.pmbox.user.vname %> your
       pm partner <%= @content.pm.user.vname %> has sent
       you a pmreply to the PM <%= @content.pm.title %>.
       There might be some artwork, videos or music tied
       to this pmreply. The message says:
       <%= @content.message %>
-   <% elsif(@content.user_id == @content.pm.pmbox.user.id)
+   <% elsif(@content.user_id == @content.pm.pmbox.user.id) %>
       Hi there <%= @content.pm.user.vname %> your
       pm partner <%= @content.pm.pmbox.user.vname %> has sent
       you a pmreply to the PM <%= @content.pm.title %>.
@@ -37,7 +37,7 @@
    inbox located at this url: <%= @url %> and then
    navigate to the show view of the pm. Please be
    kind and considerate to the original poster.
-<% if @type == "PMreply" %>
+<% elsif @type == "PMreply" %>
    To reply to your pm partner you will need to
    write a pmreply to the original pm for it to
    become visable to your partner. To do so you

@@ -27,52 +27,61 @@ module BlogsHelper
       end
 
       def blogadPricing(blog)
-         hoard = Dragonhoard.find_by_id(1)
          #Keeps track of the price
          pricetag = 0
 
          #Banner Pricing(36000)
          if(!blog.adbannerpurchased && blog.adbanner.to_s != "")
-            pricetag -= hoard.blogadbannercost
+            bannercost = Fieldcost.find_by_name("Banner")
+            pricetag -= bannercost.amount
          end
 
          #Large Image Pricing(24000)
          if(!blog.largeimage1purchased && blog.largeimage1.to_s != "")
-            pricetag -= hoard.bloglargeimagecost
+            largeimage = Fieldcost.find_by_name("Largeimage")
+            pricetag -= largeimage.amount
          end
 
          if(!blog.largeimage2purchased && blog.largeimage2.to_s != "")
-            pricetag -= hoard.bloglargeimagecost
+            largeimage = Fieldcost.find_by_name("Largeimage")
+            pricetag -= largeimage.amount
          end
 
          if(!blog.largeimage3purchased && blog.largeimage3.to_s != "")
-            pricetag -= hoard.bloglargeimagecost
+            largeimage = Fieldcost.find_by_name("Largeimage")
+            pricetag -= largeimage.amount
          end
 
          #Small Image Pricing(10000)
          if(!blog.smallimage1purchased && blog.smallimage1.to_s != "")
-            pricetag -= hoard.blogsmallimagecost
+            smallimage = Fieldcost.find_by_name("Smallimage")
+            pricetag -= smallimage.amount
          end
 
          if(!blog.smallimage2purchased && blog.smallimage2.to_s != "")
-            pricetag -= hoard.blogsmallimagecost
+            smallimage = Fieldcost.find_by_name("Smallimage")
+            pricetag -= smallimage.amount
          end
 
          if(!blog.smallimage3purchased && blog.smallimage3.to_s != "")
-            pricetag -= hoard.blogsmallimagecost
+            smallimage = Fieldcost.find_by_name("Smallimage")
+            pricetag -= smallimage.amount
          end
 
          if(!blog.smallimage4purchased && blog.smallimage4.to_s != "")
-            pricetag -= hoard.blogsmallimagecost
+            smallimage = Fieldcost.find_by_name("Smallimage")
+            pricetag -= smallimage.amount
          end
 
          if(!blog.smallimage5purchased && blog.smallimage5.to_s != "")
-            pricetag -= hoard.blogsmallimagecost
+            smallimage = Fieldcost.find_by_name("Smallimage")
+            pricetag -= smallimage.amount
          end
 
          #Music Pricing(500)
          if(!blog.musicpurchased && (blog.ogg.to_s != "" || blog.mp3.to_s != ""))
-            pricetag -= hoard.blogmusiccost
+            musiccost = Fieldcost.find_by_name("MusicAd")
+            pricetag -= musiccost.amount
          end
          return pricetag
       end
@@ -81,10 +90,7 @@ module BlogsHelper
          @blog = blog
          @user = user
          if(@blog.save)
-            url = "http://localhost:3000/blogs/review"
-            if(type == "Production")
-               url = "http://www.duelingpets.net/blogs/review"
-            end
+            url = "http://www.duelingpets.net/blogs/review"
             ContentMailer.content_review(@blog, "Blog", url).deliver_later(wait: 5.minutes)
             flash[:success] = "#{@blog.user.vname} blog #{@blog.title} was successfully created."
             redirect_to user_blog_path(@user, @blog)
@@ -99,6 +105,11 @@ module BlogsHelper
          if(pointsForBlog != 0)
             pouch = Pouch.find_by_user_id(blogFound.user_id)
             currentPoints = pouch.amount + pointsForBlog
+
+            #If the amount of points exceeds the maximum pouch limit
+            #then set the pouch = pouch limit
+
+
             #can't due this because this section is private
             #if(currentPoints < getUpgradeLimit(pouch, "Pouch"))
                pouch.amount += pointsForBlog
@@ -451,11 +462,14 @@ module BlogsHelper
                               end
                            elsif(blogFound.blogtype.name == "Blog")
                               if(!blogFound.pointsreceived)
-                                 pointsForBlog = hoard.blogpoints
+                                 blogpoints = Fieldcost.find_by_name("Blog")
+                                 pointsForBlog = blogpoints.amount
                                  if(blogFound.admascot.to_s != "")
-                                    pointsForBlog = hoard.blogmascotpoints
+                                    mascotpoints = Fieldcost.find_by_name("Mascot")
+                                    pointsForBlog = mascotpoints.amount
                                  end
                                  econname = "Source"
+                                 blogFound.pointsreceived = true
                               end
                            end
                            if(errorType != 1)

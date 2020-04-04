@@ -27,7 +27,7 @@ class CreateCreatures < ActiveRecord::Migration[5.2]
       t.boolean :unlimitedlives, default: false
       t.boolean :retiredpet, default: false
       t.boolean :starter, default: false
-      t.integer :petworth
+      t.integer :emeraldcost
       t.integer :cost
       t.datetime :created_on
       t.datetime :updated_on

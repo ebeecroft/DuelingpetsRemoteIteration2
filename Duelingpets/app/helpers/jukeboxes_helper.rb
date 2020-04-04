@@ -184,11 +184,20 @@ module JukeboxesHelper
                         @user = userFound
 
                         if(type == "create")
-                           if(@jukebox.save)
-                              flash[:success] = "#{@jukebox.name} was successfully created."
-                              redirect_to user_jukebox_path(@user, @jukebox)
+                           jukeboxcost = Fieldcost.find_by_name("Jukebox")
+                           if(logged_in.pouch.amount - jukeboxcost.amount >= 0)
+                              if(@jukebox.save)
+                                 logged_in.pouch.amount -= jukebox.amount
+                                 @pouch = logged_in.pouch
+                                 @pouch.save
+                                 flash[:success] = "#{@jukebox.name} was successfully created."
+                                 redirect_to user_jukebox_path(@user, @jukebox)
+                              else
+                                 render "new"
+                              end
                            else
-                              render "new"
+                              flash[:error] = "Insufficient funds to create jukebox!"
+                              redirect_to user_path(logged_in.id)
                            end
                         end
                      else

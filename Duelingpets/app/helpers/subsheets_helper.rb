@@ -125,12 +125,21 @@ module SubsheetsHelper
                         @mainsheet = mainsheetFound
 
                         if(type == "create")
-                           if(@subsheet.save)
-                              updateJukebox(@subsheet.mainsheet)
-                              flash[:success] = "#{@subsheet.title} was successfully created."
-                              redirect_to mainsheet_subsheet_path(@mainsheet, @subsheet)
+                           subsheetcost = Fieldcost.find_by_name("Subsheet")
+                           if(logged_in.pouch.amount - subsheetcost.amount >= 0)
+                              if(@subsheet.save)
+                                 logged_in.pouch.amount -= subsheetcost.amount
+                                 @pouch = logged_in.pouch
+                                 @pouch.save
+                                 updateJukebox(@subsheet.mainsheet)
+                                 flash[:success] = "#{@subsheet.title} was successfully created."
+                                 redirect_to mainsheet_subsheet_path(@mainsheet, @subsheet)
+                              else
+                                 render "new"
+                              end
                            else
-                              render "new"
+                              flash[:error] = "Insufficient funds to create a subsheet!"
+                              redirect_to root_path
                            end
                         end
                      else

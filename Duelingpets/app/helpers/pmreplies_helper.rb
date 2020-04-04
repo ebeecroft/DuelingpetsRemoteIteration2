@@ -96,6 +96,7 @@ module PmrepliesHelper
                            newPmreply.created_on = currentTime
                            newPmreply.updated_on = currentTime
                            newPmreply.user_id = logged_in.id
+                           pmFound.updated_on = currentTime
 
                            #Sets the user that receives the pm read status to unread
                            if(newPmreply.user_id == pmFound.user_id)
@@ -109,15 +110,25 @@ module PmrepliesHelper
                         @pm = pmFound
 
                         if(type == "create")
-                           if(@pmreply.save)
-                              #Might edit url later
-                              @pm.save
-                              url = "http://www.duelingpets.net/pmboxes/inbox"
-                              CommunityMailer.messaging(@pmreply, "PMreply", url).deliver_now
-                              flash[:success] = "PMreply was successfully created."
-                              redirect_to pmbox_pm_path(@pm.pmbox, @pmreply.pm)
+                           pmreplycost = Fieldcost.find_by_name("PMreply")
+                           if(logged_in.pouch.amount - pmreplycost.amount >= 0)
+                              if(@pmreply.save)
+                                 #Ecomony transaction later
+                                 logged_in.pouch.amount -= pmreplycost.amount
+                                 @pouch = logged_in.pouch
+                                 @pouch.save
+                                 @pm.save
+
+                                 url = "http://www.duelingpets.net/pmboxes/{@pm.pmbox_id}/pms/{@pm.id}"
+                                 CommunityMailer.messaging(@pmreply, "PMreply", url).deliver_now
+                                 flash[:success] = "PMreply was successfully created."
+                                 redirect_to pmbox_pm_path(@pm.pmbox, @pmreply.pm)
+                              else
+                                 render "new"
+                              end
                            else
-                              render "new"
+                              flash[:error] = "Insufficient funds to send pmreplies!"
+                              redirect_to root_path
                            end
                         end
                      else

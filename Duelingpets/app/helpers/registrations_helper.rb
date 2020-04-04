@@ -82,7 +82,8 @@ module RegistrationsHelper
 
       def registration_params
          params.require(:registration).permit(:firstname, :lastname, :email, :country, 
-         :country_timezone, :birthday, :login_id, :vname, :shared, :accounttype_id)
+         :country_timezone, :birthday, :login_id, :vname, :shared, :accounttype_id,
+         :message)
       end
 
       def welcomeUser
@@ -96,6 +97,7 @@ module RegistrationsHelper
          newBlog.blogviewer_id = 1
          newBlog.created_on = currentTime
          newBlog.reviewed_on = currentTime
+         newBlog.updated_on = currentTime
          newBlog.reviewed = true
          newBlog.pointsreceived = true
          @blog = newBlog
@@ -103,16 +105,16 @@ module RegistrationsHelper
 
          #Reward blogger for new member
          bloggerPouch = Pouch.find_by_user_id(blogger.id)
-         hoard = Dragonhoard.find_by_id(1)
-         blogPoints = hoard.blogpoints
-         bloggerPouch.amount += blogPoints
+         blogpoints = Fieldcost.find_by_name("Blog")
+         pointsForBlog = blogpoints.amount
+         bloggerPouch.amount += pointsForBlog
 
          #Updated the economy
          newEconomy = Economy.new(params[:economy])
          newEconomy.econtype = "Content"
          newEconomy.content_type = "Blog"
          newEconomy.name = "Source"
-         newEconomy.amount = blogPoints
+         newEconomy.amount = pointsForBlog
          newEconomy.user_id = newBlog.user_id
          newEconomy.created_on = currentTime
          @economy = newEconomy
@@ -136,12 +138,11 @@ module RegistrationsHelper
          end
 
          #Remove some Dreyterrium to give to the user
-         hoard = Dragonhoard.find_by_id(1)
-         newDreyterrium = hoard.dreyterrium_start - 10
+         dreyore = Dreyore.find_by_name("Newbie")
+         dreyore.cur -= 10
+         @dreyore = dreyore
+         @dreyore.save
          newPouch.dreyterriumamount = 10
-         hoard.dreyterrium_start = newDreyterrium
-         @dragonhoard = hoard
-         @dragonhoard.save
 
          #Save the pouch
          timeout = 1.day.from_now.utc
@@ -260,7 +261,8 @@ module RegistrationsHelper
                         if(@registration.save)
                            flash[:success] = "Thank you for registration we will review your account over 
                            the next three days to see if it is legitimate."
-                           url = "http://localhost:3000/registrations/review"
+                           #url = "http://localhost:3000/registrations/review"
+                           url = "http://www.duelingpets.net/registrations/review"
                            UserMailer.registration(@registration, "Review", url).deliver_later(wait: 2.minutes)
                            redirect_to root_path
                         else
@@ -280,23 +282,28 @@ module RegistrationsHelper
                      if(logged_in.pouch.privilege == "Admin" || logged_in.pouch.privilege == "Keymaster")
                         @registration = registrationFound
                         if(type == "approve")
-                           newUser = createUser(registrationFound)
-                           @user = newUser
-                           if(@user.save)
-                              #Builds the user parameters
-                              buildUserParameters(@user, "Info")
-                              buildUserParameters(@user, "Shoutbox")
-                              buildUserParameters(@user, "PMbox")
-                              buildUserParameters(@user, "Inventory")
-                              #buildUserParameters(@user, "Donationbox")
-                              buildPouch(@user)
+                           dreyore = Dreyore.find_by_name("Newbie")
+                           if((dreyore.cur - dreyore.baseinc) >= 0)
+                              newUser = createUser(registrationFound)
+                              @user = newUser
+                              if(@user.save)
+                                 #Builds the user parameters
+                                 buildUserParameters(@user, "Info")
+                                 buildUserParameters(@user, "Shoutbox")
+                                 buildUserParameters(@user, "PMbox")
+                                 buildUserParameters(@user, "Inventory")
+                                 #buildUserParameters(@user, "Donationbox")
+                                 buildPouch(@user)
 
-                              UserMailer.login_info(@user, @user.password).deliver_later(wait: 2.minutes)
-                              welcomeUser
-                              flash[:success] = "Registration was converted to a user."
-                              @registration.destroy
+                                 UserMailer.login_info(@user, @user.password).deliver_later(wait: 2.minutes)
+                                 welcomeUser
+                                 flash[:success] = "Registration was converted to a user."
+                                 @registration.destroy
+                              else
+                                 flash[:error] = "Registration failed."
+                              end
                            else
-                              flash[:error] = "Registration failed."
+                              flash[:error] = "Dreyore in reserve is too low to approve registration!"
                            end
                         else
                            url = "BotFound"

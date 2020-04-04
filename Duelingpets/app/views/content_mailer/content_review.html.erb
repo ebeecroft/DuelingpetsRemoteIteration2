@@ -14,54 +14,66 @@
          <h1><%= @content.user.vname %>'s new creature <%= @content.name %> is awaiting your review!</h1>
       <% elsif @type == "Sound" %>
          <h1><%= @content.user.vname %>'s new sound <%= @content.title %> is awaiting your review!</h1>
+      <% elsif @type == "Chapter" %>
+         <h1><%= @content.user.vname %>'s new chapter <%= @content.title %> is awaiting your review!</h1>
       <% end %>
       <p>
          <% if @type == "Blog" %>
             Greeting my review team we have a blogger by the name
-            of <%= @content.user.vname %> who is building some
+            of <%= @content.user.vname %> who is creating some
             new blogs to help advertise his content on this site.
          <% elsif @type == "OC" %>
             Greetings my review team we have an artist by the name
-            of <%= @content.user.vname %> who is building some new
+            of <%= @content.user.vname %> who is creating some new
             ocs for the site.
          <% elsif @type == "Item" %>
             Greetings my review team we have an artist by the name
-            of <%= @content.user.vname %> who is building some new
+            of <%= @content.user.vname %> who is creating some new
             items for the site.
          <% elsif @type == "Creature" %>
             Greetings my review team we have an artist by the name
-            of <%= @content.user.vname %> who is building some new
+            of <%= @content.user.vname %> who is creating some new
             creatures for the site.
          <% elsif @type == "Sound" %>
             Greetings my review team we have a composer by the name
-            of <%= @content.user.vname %> who is building some new
+            of <%= @content.user.vname %> who is creating some new
             sounds for the site.
+         <% elsif @type == "Chapter" %>
+            Greetings my review team we have a writer by the name
+            of <%= @content.user.vname %> who is creating some new
+            chapters for the site.
          <% end %>
          So I gathered you all together to have a look at his
          newest submission to see if it fits within our
          guidlines.
          <% if @type == "Blog" %>
             This blog might contain some artwork ads
-            and as such I like you to look them over in addition
-            to the traditional text based content that blogs
-            normally contain.
+            and as such I would like you to look them over in
+            addition to the traditional text based content that
+            blogs normally contain.
          <% elsif @type == "OC" %>
             This oc might contain some music and voice elements in
             addition to the standard image and text content found
-            on most ocs. As such I like you to look this content
-            over.
+            on most ocs. As such I would like you to look this
+            content over.
          <% elsif @type == "Item" %>
             This item has a variety of different stats that might
-            be included with the standard image. As such I like
-            you to look this content over.
+            be included with the standard image. As such I would
+            like you to look this content over.
          <% elsif @type == "Creature" %>
             This creature has a variety of different stats that might
             be included with the standard image as well as some voice
-            and background music. As such I like you to look this
-            content over.
+            and background music. As such I would like you to look
+            this content over.
          <% elsif @type == "Sound" %>
             This sound might be a song, a radio walkthrough, or
-            others. As such I like you to look this content over.
+            others. As such I would like you to look this content
+            over.
+         <% elsif @type == "Chapter %>
+            This chapter might contain some character voices or
+            background music, there also might be some images of the
+            characters themselves in addition to the story itself.
+            As such I would like you to look this content over.
          <% end %>
          Be sure to check to see if this content does indeed fit
          the book group that it has been assigned to. Please give
@@ -92,6 +104,9 @@
             points added to their account.
          <% elsif @type == "Sound" %>
             Now if you approve the sound then the user gets
+            points added to their account.
+         <% elsif @type == "Chapter" %>
+            Now if you approve the chapter then the user gets
             points added to their account.
          <% end %>
          If you deny the content please get in touch with the

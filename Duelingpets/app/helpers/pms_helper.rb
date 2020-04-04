@@ -134,14 +134,19 @@ module PmsHelper
                         @pmbox = boxFound
 
                         if(type == "create")
-                           if(@pm.save)
-                              #Might edit url later
-                              url = "http://www.duelingpets.net/pmboxes/inbox"
-                              CommunityMailer.messaging(@pm, "PM", url).deliver_now
-                              flash[:success] = "#{@pm.title} was successfully created."
-                              redirect_to pmboxes_outbox_path
+                           pmcost = Fieldcost.find_by_name("PMcost")
+                           if(logged_in.pouch.amount - pmcost.amount >= 0)
+                              if(@pm.save)
+                                 url = "http://www.duelingpets.net/pmboxes/inbox"
+                                 CommunityMailer.messaging(@pm, "PM", url).deliver_now
+                                 flash[:success] = "#{@pm.title} was successfully created."
+                                 redirect_to pmboxes_outbox_path
+                              else
+                                 render "new"
+                              end
                            else
-                              render "new"
+                              flash[:error] = "Insufficient funds to create a PM!"
+                              redirect_to root_path
                            end
                         end
                      else

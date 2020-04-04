@@ -129,12 +129,21 @@ module MainsheetsHelper
                         @jukebox = jukeboxFound
 
                         if(type == "create")
-                           if(@mainsheet.save)
-                              updateJukebox(@mainsheet.jukebox)
-                              flash[:success] = "#{@mainsheet.title} was successfully created."
-                              redirect_to jukebox_mainsheet_path(@jukebox, @mainsheet)
+                           mainsheetcost = Fieldcost.find_by_name("Mainsheet")
+                           if(logged_in.pouch.amount - mainsheet.amount >= 0)
+                              logged_in.pouch.amount -= mainsheet.amount
+                              @pouch = logged_in.pouch
+                              @pouch.save
+                              if(@mainsheet.save)
+                                 updateJukebox(@mainsheet.jukebox)
+                                 flash[:success] = "#{@mainsheet.title} was successfully created."
+                                 redirect_to jukebox_mainsheet_path(@jukebox, @mainsheet)
+                              else
+                                 render "new"
+                              end
                            else
-                              render "new"
+                              flash[:error] = "Insufficient funds to create a mainsheet!"
+                              redirect_to root_path
                            end
                         end
                      else

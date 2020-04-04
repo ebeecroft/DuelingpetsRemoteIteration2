@@ -45,10 +45,10 @@ module CreaturesHelper
       end
 
       def getPetCalc(creature)
-         if(!creature.hp.nil? && !creature.atk.nil? && !creature.def.nil? && !creature.agility.nil? && !creature.strength.nil? && !creature.mp.nil? && !creature.matk.nil? && !creature.mdef.nil? && !creature.magi.nil? && !creature.mstr.nil? && !creature.hunger.nil? && !creature.thirst.nil? && !creature.fun.nil? && !creature.lives.nil? && !creature.rarity.nil? && !creature.petworth.nil? && !creature.creaturetype.basecost.nil?)
+         if(!creature.hp.nil? && !creature.atk.nil? && !creature.def.nil? && !creature.agility.nil? && !creature.strength.nil? && !creature.mp.nil? && !creature.matk.nil? && !creature.mdef.nil? && !creature.magi.nil? && !creature.mstr.nil? && !creature.hunger.nil? && !creature.thirst.nil? && !creature.fun.nil? && !creature.lives.nil? && !creature.rarity.nil? && !creature.creaturetype.basecost.nil?)
             #Application that calculates level and cost
             #Rework this area
-            results = `public/Resources/Code/petcalc/calc #{creature.hp} #{creature.atk} #{creature.def} #{creature.agility} #{creature.strength} #{creature.mp} #{creature.matk} #{creature.mdef} #{creature.magi} #{creature.mstr} #{creature.hunger} #{creature.thirst} #{creature.fun} #{creature.lives} #{creature.rarity} #{creature.petworth} #{creature.creaturetype.basecost}`
+            results = `public/Resources/Code/petcalc/calc #{creature.hp} #{creature.atk} #{creature.def} #{creature.agility} #{creature.strength} #{creature.mp} #{creature.matk} #{creature.mdef} #{creature.magi} #{creature.mstr} #{creature.hunger} #{creature.thirst} #{creature.fun} #{creature.lives} #{creature.rarity} #{creature.creaturetype.basecost}`
             petAttributes = results.split(",")
             petCost, petLevel = petAttributes.map{|str| str.to_i}
             @creature = creature
@@ -71,7 +71,7 @@ module CreaturesHelper
             #Add Knowledge here later
             value = params.require(:creature).permit(:name, :description, :hp, :atk, :def, :agility, 
             :strength, :mp, :matk, :mdef, :magi, :mstr, :hunger, :thirst, :fun, :lives, :rarity,
-            :starter, :petworth, :unlimitedlives, :image, :remote_image_url,
+            :starter, :emeraldcost, :unlimitedlives, :image, :remote_image_url,
             :image_cache, :ogg, :remote_ogg_url, :ogg_cache, :mp3, :remote_mp3_url, :mp3_cache, :voiceogg,
             :remote_voiceogg_url, :voiceogg_cache, :voicemp3, :remote_voicemp3_url, :voicemp3_cache, :creaturetype_id)
          elsif(type == "Page")
@@ -304,14 +304,13 @@ module CreaturesHelper
                            #Might revise this section later
                            creatureFound.reviewed = true
                            creatureFound.reviewed_on = currentTime
-                           hoard = Dragonhoard.find_by_id(1)
-                           #pointsForCreatures = hoard.creaturepoints
 
+                           #These points might change for purchases
                            #Might be changed to cost something different
-                           pointsForCreatures = (creatureFound.cost * 0.60).round
+                           pointsForCreature = (creatureFound.cost * 0.60).round
                            if(!creatureFound.pointsreceived)
                               pouch = Pouch.find_by_user_id(creatureFound.user_id)
-                              pouch.amount += pointsForCreatures
+                              pouch.amount += pointsForCreature
                               @pouch = pouch
                               @pouch.save
 
@@ -320,7 +319,7 @@ module CreaturesHelper
                               newTransaction.econtype = "Content"
                               newTransaction.content_type = "Creature"
                               newTransaction.name = "Source"
-                              newTransaction.amount = pointsForCreatures
+                              newTransaction.amount = pointsForCreature
                               newTransaction.user_id = creatureFound.user_id
                               newTransaction.created_on = currentTime
                               @economytransaction = newTransaction
