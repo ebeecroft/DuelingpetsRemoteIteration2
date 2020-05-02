@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_025923) do
+ActiveRecord::Schema.define(version: 2020_04_08_003433) do
 
   create_table "accounttypes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -270,6 +270,32 @@ ActiveRecord::Schema.define(version: 2020_03_20_025923) do
     t.integer "emeralddebt", default: 0
     t.integer "emeraldloan", default: 0
     t.datetime "created_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "donationboxes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "description"
+    t.integer "progress"
+    t.integer "goal"
+    t.integer "capacity"
+    t.datetime "initialized_on"
+    t.integer "user_id"
+    t.boolean "hitgoal", default: false
+    t.boolean "box_open", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "donors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "description"
+    t.integer "amount"
+    t.integer "capacity"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "user_id"
+    t.integer "donationbox_id"
+    t.boolean "pointsreceived"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -42,6 +42,7 @@ module UsersHelper
             reviewedShouts = allShouts.select{|shout| shout.reviewed}
             value = reviewedShouts.count
             if(type == "Pageshouts")
+              #Shouts that get displayed on the user's show view
               @shouts = Kaminari.paginate_array(reviewedShouts).page(params[:page]).per(10)
               value = @shouts
             end
@@ -60,6 +61,12 @@ module UsersHelper
          elsif(type == "Jukeboxes")
             allJukeboxes = user.jukeboxes.order("created_on desc")
             value = allJukeboxes.count
+         elsif(type == "Bookworlds")
+            allWorlds = user.bookworlds.order("created_on desc")
+            value = allWorlds.count
+         elsif(type == "PMs")
+            allPMs = user.pms.order("created_on desc")
+            value = allPMs.count
          end
          return value
       end

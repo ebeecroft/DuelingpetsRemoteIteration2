@@ -15,6 +15,8 @@ class User < ApplicationRecord
    has_many :suspendedtimelimits, :foreign_key => "user_id", :dependent => :destroy
    has_many :referrals, :foreign_key => "referred_by_id", :dependent => :destroy
    has_one :referral, :foreign_key => "user_id", :dependent => :destroy
+   has_one :donationbox, :foreign_key => "user_id", :dependent => :destroy
+   has_many :donors, :foreign_key => "user_id", :dependent => :destroy
 
    #Relationships for communication
    has_one :shoutbox, :foreign_key => "user_id", :dependent => :destroy

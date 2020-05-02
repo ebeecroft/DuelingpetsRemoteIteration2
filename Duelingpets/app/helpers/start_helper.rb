@@ -547,7 +547,7 @@ module StartHelper
       end
 
       def userprofile(type)
-         profile = (link_to("Login", login_path) + " " + link_to("Register", register_path))
+         profile = (link_to("Login", login_path)  + " " + link_to("Register", register_path))
          if(type == "User")
             profile = (link_to(current_user.vname, current_user) + " " + link_to("Logout", logout_path, method: "delete"))
          end

@@ -174,6 +174,8 @@ module RegistrationsHelper
             userstat = Donationbox.new(params[:donationbox])
             userstat.initialized_on = currentTime
             userstat.description = "Describe your donation"
+            userstat.capacity = 2000000
+            userstat.goal = 100
          end
          userstat.user_id = user.id
          @userstat = userstat
@@ -292,7 +294,7 @@ module RegistrationsHelper
                                  buildUserParameters(@user, "Shoutbox")
                                  buildUserParameters(@user, "PMbox")
                                  buildUserParameters(@user, "Inventory")
-                                 #buildUserParameters(@user, "Donationbox")
+                                 buildUserParameters(@user, "Donationbox")
                                  buildPouch(@user)
 
                                  UserMailer.login_info(@user, @user.password).deliver_later(wait: 2.minutes)

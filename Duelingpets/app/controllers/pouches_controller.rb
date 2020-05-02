@@ -12,20 +12,4 @@ class PouchesController < ApplicationController
    def update
       mode "update"
    end
-
-   def upgradepouch
-      mode "upgradepouch"
-   end
-
-   def upgradeemerald
-      mode "upgradeemerald"
-   end
-
-   def upgradeblog
-      mode "upgradeblog"
-   end
-
-   def upgradedreyterrium
-      mode "dreyterrium"
-   end
 end

@@ -20,4 +20,8 @@ class UserupgradesController < ApplicationController
    def update
       mode "update"
    end
+
+   def upgrade
+      mode "upgrade"
+   end
 end

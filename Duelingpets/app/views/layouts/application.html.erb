@@ -8,8 +8,11 @@
       <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
       <%= favicon_link_tag displayType("Favicon") %>
       <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta name="description" content="<%= yield(:description) %>" />
    </head>
    <body id="pagestyle">
+      <link rel="canonical" href="<%= yield(:canonical) %>" />
+      <link rel="alternate" href="<%= yield(:alternate) %>" />
       <!--CSS Code section-->
       <style>
         *{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}
@@ -35,6 +38,16 @@
         /* End of main navigation features */
 
         @media screen and (max-width: 640px)
+        {
+          .profile a{font-size: 140%}
+          .navindent{font-size: 120%; font-weight: bold; background: <%= getColorAttribute("Navigation") %>; text-align: center;}
+          .navindent a{font-weight: bold; font-size: 120%; color: <%= getColorAttribute("Navigationlink") %>;}
+          .navindent a:hover{color: <%= getColorAttribute("Navigationhoverforc") %>;background: <%= getColorAttribute("Navigationhoverbackgc") %>}
+          #activity{padding: 3.5% 0%; color: <%= getColorAttribute("Onlinestatus") %>}
+          .navigation{display: inline-block; padding: 3.5% 0.3%; font-family: 'Courier New', 'monospace';}
+        }
+
+        @media screen and (min-width: 641px and max-width: 1024px)
         {
           .profile a{font-size: 140%}
           .navindent{font-size: 120%; font-weight: bold; background: <%= getColorAttribute("Navigation") %>; text-align: center;}

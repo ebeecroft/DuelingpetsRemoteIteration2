@@ -191,15 +191,16 @@ module DragonhoardsHelper
                if(hoard && (logged_in && logged_in.pouch.privilege == "Glitchy"))
                   if(type == "vacationmode")
                      if(hoard.denholiday)
+                        #Will be removed in iteration 3
                         hoard.denholiday = false
                         #Returns from vacation
                         #Should reduce vacation points
-                        points = (hoard.vacationpoints * 0.40).round
-                        hoard.vacationpoints = points
+                        #points = (hoard.vacationpoints * 0.40).round
+                        #hoard.vacationpoints = points
                         flash[:success] = "Glitchy has now returned from his vacation!"
                      else
                         hoard.denholiday = true
-                        hoard.vacationpoints = vacationFunds
+                        #hoard.vacationpoints = vacationFunds
                         flash[:success] = "Glitchy is now on vacation!"
                      end
                   else

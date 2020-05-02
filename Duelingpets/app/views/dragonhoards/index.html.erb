@@ -48,7 +48,10 @@
          <div class="container">Profit: <%= @dragonhoard.profit %></div>
          <div class="container"><%= button_to 'Withdraw points', dragonhoards_withdraw_path(:dragonhoard_id=>@dragonhoard.id), method: :post, class: "button submitbutton" %></div>
          <br>
-         <div class="container">Vacation points: <%= @dragonhoard.vacationpoints %></div>
+         <div class="container">Donated points: <%= @dragonhoard.vacationpoints %></div>
+         <% if current_user %>
+            <div class="container"><%#= button_to "Donate!", dragonhoards_donatepoints_path, method: :get, class: "button submitbutton" %></div>
+         <% end %>
          <% if !@dragonhoard.denholiday %>
             <div class="container"><%= button_to "Retrieve points!", dragonhoards_getvacationpoints_path, method: :post, class: "button submitbutton" %></div>
             <br>
@@ -65,7 +68,7 @@
          <br>
       <% else %>
          <p>Profit: <%= @dragonhoard.profit %></p>
-         <p>Vacation points: <%= @dragonhoard.vacationpoints %></p>
+         <p>Donation points: <%= @dragonhoard.vacationpoints %></p>
          <p>On vacation: <%= @dragonhoard.denholiday %></p>
          <p>Treasury: <%= @dragonhoard.treasury %></p>
       <% end %>
@@ -86,7 +89,7 @@
          <br>
       <% end %>
       <p>Ratecosts</p>
-      <% if @ratecosts.count >= 10 %>
+      <% if @ratecosts.count >= 9 %>
          <div class="formlinks"><%= paginate @ratecosts %></div>
          <br>
       <% end %>

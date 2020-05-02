@@ -106,6 +106,26 @@ class CommunityMailer < ApplicationMailer
       mail(to: email, from: websiteMail, subject: message)
    end
 
+   def shouts(content, type, url)
+      websiteMail = "notification@duelingpets.net"
+      email = ""
+      message = ""
+      if(type == "Review")
+         email = content.shoutbox.user.email
+         message = "#{content.user.vname}'s shout is awaiting your review:[Duelingpets]"
+      elsif(type == "Approved")
+         email = content.user.email
+         message = "Your shout to #{content.shoutbox.user.vname}'s shoutbox was approved:[Duelingpets]"
+      elsif(type == "Denied")
+         email = content.user.email
+         message = "Your shout to #{content.shoutbox.user.vname}'s shoutbox was denied:[Duelingpets]"
+      end
+      @type = type
+      @content = content
+      @url = url
+      mail(to: email, from: websiteMail, subject: message)
+   end
+
    def messaging(content, type, url)
       websiteMail = "notification@duelingpets.net"
       email = ""
@@ -127,11 +147,23 @@ class CommunityMailer < ApplicationMailer
       mail(to: email, from: websiteMail, subject: message)
    end
 
-   def goal_reached(box, points, netPoints)
-      websiteMail = "notification@duelingpets.net"
-      @donationbox = box
+   def donations(content, type, points)
+      if(type == "Goal")
+         email = content.donationbox.user.email
+         message = "Congratulations you hit your goal of #{content.pmbox.goal} points!"
+      elsif(type == "Donated")
+         email = content.donationbox.user.email
+         message = "#{content.user.vname} donated #{points} points to you!"
+      elsif(type == "Retrieve")
+         email = content.user.email
+         message = "Congratulations #{content.user.vname} you just gained #{points} points!"
+      elsif(type == "Refund")
+         email = content.user.email
+         message = "#{content.donationbox.user.vname} gave you back your points!"
+      end
+      @type = type
+      @content = content
       @points = points
-      @netpoints = netpoints
-      mail(to: @donationbox.user.email, from: "notification@duelingpets.net", subject: "Congratulations #{@donationbox.user.vname} you hit your goal! [Duelingpets]")
+      mail(to: email, from: websiteMail, subject: message)
    end
 end

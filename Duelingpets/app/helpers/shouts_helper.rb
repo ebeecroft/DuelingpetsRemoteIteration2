@@ -96,6 +96,8 @@ module ShoutsHelper
                      newShout.created_on = currentTime
                      @shout = newShout
                      @shout.save
+                     url = "http://www.duelingpets.net/shouts/review"
+                     CommunityMailer.shouts(@shout, "Review", url).deliver_now
                      flash[:success] = "#{@shout.user.vname} shout was successfully created!"
                      redirect_to user_path(boxFound.user)
                   else
@@ -157,7 +159,7 @@ module ShoutsHelper
                   if(shoutFound)
                      if((logged_in.pouch.privilege == "Admin" || logged_in.pouch.privilege == "Manager") || (logged_in.id == shoutFound.shoutbox.user_id))
                         if(type == "approve")
-                           #May add mailers later
+                           #Determines if the player can pay for it
                            shoutcost = Fieldcost.find_by_name("Shout")
                            if(shoutFound.user.pouch.amount - shoutcost.amount >= 0)
                               shoutFound.user.pouch.amount -= shoutcost.amount
@@ -167,14 +169,16 @@ module ShoutsHelper
                               shoutFound.reviewed_on = currentTime
                               @shout = shoutFound
                               @shout.save
+                              url = "None"
+                              CommunityMailer.shouts(@shout, "Approved", url).deliver_now
                               value = "#{@shout.user.vname}'s shout message #{@shout.message} was approved!"
                            else
                               value = "Insufficient funds for approving this shout!"
                            end
                         else
-                           #May add mailers later
                            @shout = shoutFound
-                           @shout.destroy
+                           url = "None"
+                           CommunityMailer.shouts(@shout, "Denied", url).deliver_now
                            value = "#{shoutFound.user.vname}'s shout message #{shoutFound.message} was denied!"
                         end
                         redirect_to shouts_review_path
