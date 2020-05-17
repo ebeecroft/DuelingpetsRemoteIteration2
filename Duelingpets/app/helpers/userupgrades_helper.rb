@@ -22,6 +22,12 @@ module UserupgradesHelper
          if(upgradetype == "Cost")
             if(buytype == "Pouch")
                level = pouch.pouchlevel
+            elsif(buytype == "Channel")
+               level = pouch.channellevel
+            elsif(buytype == "Book")
+               level = pouch.booklevel
+            elsif(buytype == "Jukebox")
+               level = pouch.jukeboxlevel
             elsif(buytype == "OC")
                level = pouch.oclevel
             elsif(buytype == "Blog")
@@ -44,6 +50,12 @@ module UserupgradesHelper
             level = 0
             if(buytype == "Pouch")
                level = pouch.pouchlevel
+            elsif(buytype == "Channel")
+               level = pouch.channellevel
+            elsif(buytype == "Book")
+               level = pouch.booklevel
+            elsif(buytype == "Jukebox")
+               level = pouch.jukeboxlevel
             elsif(buytype == "OC")
                level = pouch.oclevel
             elsif(buytype == "Blog")
@@ -75,6 +87,18 @@ module UserupgradesHelper
                   pouchFound.pouchlevel += 1
                   message1 = "pouch"
                   message2 = "#{pouchFound.pouchlevel}"
+               elsif(buytype == "Channel")
+                  pouchFound.channellevel += 1
+                  message1 = "channel"
+                  message2 = "#{pouchFound.channellevel}"
+               elsif(buytype == "Book")
+                  pouchFound.booklevel += 1
+                  message1 = "book"
+                  message2 = "#{pouchFound.booklevel}"
+               elsif(buytype == "Jukebox")
+                  pouchFound.jukeboxlevel += 1
+                  message1 = "jukebox"
+                  message2 = "#{pouchFound.jukeboxlevel}"
                elsif(buytype == "OC")
                   pouchFound.oclevel += 1
                   message1 = "oc"

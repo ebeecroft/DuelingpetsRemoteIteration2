@@ -187,7 +187,7 @@ module JukeboxesHelper
                            jukeboxcost = Fieldcost.find_by_name("Jukebox")
                            if(logged_in.pouch.amount - jukeboxcost.amount >= 0)
                               if(@jukebox.save)
-                                 logged_in.pouch.amount -= jukebox.amount
+                                 logged_in.pouch.amount -= jukeboxcost.amount
                                  @pouch = logged_in.pouch
                                  @pouch.save
                                  flash[:success] = "#{@jukebox.name} was successfully created."
@@ -244,7 +244,7 @@ module JukeboxesHelper
                   musicCommons(type)
                else
                   allMode = Maintenancemode.find_by_id(1)
-                  jukeboxMode = Maintenancemode.find_by_id(5)
+                  jukeboxMode = Maintenancemode.find_by_id(11)
                   if(allMode.maintenance_on || jukeboxMode.maintenance_on)
                      if(allMode.maintenance_on)
                         #the render section

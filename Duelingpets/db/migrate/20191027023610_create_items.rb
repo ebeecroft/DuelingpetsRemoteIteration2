@@ -22,7 +22,7 @@ class CreateItems < ActiveRecord::Migration[5.2]
       t.boolean :retireditem, default: false
       t.boolean :starter, default: false
       t.boolean :equipable, default: false
-      t.integer :itemworth
+      t.integer :emeraldcost
       t.integer :cost
       t.datetime :created_on
       t.datetime :reviewed_on

@@ -26,7 +26,9 @@ module StartHelper
             toReview = allSounds.select{|content| !content.reviewed}
             value = toReview.count
          elsif(type == "Movie")
-            #toReview = allCreatures.select{|content| !content.reviewed}
+            allMovies = Movie.all
+            toReview = allMovies.select{|content| !content.reviewed}
+            value = toReview.count
          elsif(type == "Shout")
             allShouts = Shout.all
             toReview = allShouts.select{|content| !content.reviewed}
@@ -142,25 +144,25 @@ module StartHelper
                firstContent = Sound.first.created_on.year
             end
          elsif(type == "Channel")
-            #allContents = Channel.all
-            #if(allContents.count != 0)
-               #firstContent = Channel.first.created_on.year
-            #end
+            allContents = Channel.all
+            if(allContents.count != 0)
+               firstContent = Channel.first.created_on.year
+            end
          elsif(type == "Mainplaylist")
-            #allContents = Mainplaylist.all
-            #if(allContents.count != 0)
-               #firstContent = Mainplaylist.first.created_on.year
-            #end
+            allContents = Mainplaylist.all
+            if(allContents.count != 0)
+               firstContent = Mainplaylist.first.created_on.year
+            end
          elsif(type == "Subplaylist")
-            #allContents = Subplaylist.all
-            #if(allContents.count != 0)
-               #firstContent = Subplaylist.first.created_on.year
-            #end
+            allContents = Subplaylist.all
+            if(allContents.count != 0)
+               firstContent = Subplaylist.first.created_on.year
+            end
          elsif(type == "Movie")
-            #allContents = Movie.all
-            #if(allContents.count != 0)
-               #firstContent = Movie.first.created_on.year
-            #end
+            allContents = Movie.all
+            if(allContents.count != 0)
+               firstContent = Movie.first.created_on.year
+            end
          elsif(type == "Blog")
             allContents = Blog.all
             if(allContents.count != 0)
@@ -673,6 +675,8 @@ module StartHelper
                   redirect_to creatures_path
                elsif(params[:pageType] == "Jukebox")
                   redirect_to user_jukeboxes_path(current_user)
+               elsif(params[:pageType] == "Channel")
+                  redirect_to user_channels_path(current_user)
                end
             elsif(type == "admincontrols" || type == "keymastercontrols" || type == "reviewercontrols" || type == "managercontrols")
             end

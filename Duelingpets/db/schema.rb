@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_003433) do
+ActiveRecord::Schema.define(version: 2020_05_14_045428) do
 
   create_table "accounttypes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -140,6 +140,21 @@ ActiveRecord::Schema.define(version: 2020_04_08_003433) do
     t.integer "user_id"
     t.boolean "open_world", default: false
     t.boolean "privateworld", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "channels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "ogg"
+    t.string "mp3"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "user_id"
+    t.integer "bookgroup_id"
+    t.boolean "music_on", default: false
+    t.boolean "privatechannel", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -295,7 +310,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_003433) do
     t.datetime "updated_on"
     t.integer "user_id"
     t.integer "donationbox_id"
-    t.boolean "pointsreceived"
+    t.boolean "pointsreceived", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -407,7 +422,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_003433) do
     t.boolean "retireditem", default: false
     t.boolean "starter", default: false
     t.boolean "equipable", default: false
-    t.integer "itemworth"
+    t.integer "emeraldcost"
     t.integer "cost"
     t.datetime "created_on"
     t.datetime "reviewed_on"
@@ -445,6 +460,17 @@ ActiveRecord::Schema.define(version: 2020_04_08_003433) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "mainplaylists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "user_id"
+    t.integer "channel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "mainsheets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -460,6 +486,23 @@ ActiveRecord::Schema.define(version: 2020_04_08_003433) do
     t.string "name"
     t.datetime "created_on"
     t.boolean "maintenance_on", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "movies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "ogv"
+    t.string "mp4"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.datetime "reviewed_on"
+    t.integer "user_id"
+    t.integer "bookgroup_id"
+    t.integer "subplaylist_id"
+    t.boolean "reviewed", default: false
+    t.boolean "pointsreceived", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -640,16 +683,30 @@ ActiveRecord::Schema.define(version: 2020_04_08_003433) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "subplaylists", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "created_on"
+    t.datetime "updated_on"
+    t.integer "user_id"
+    t.integer "mainplaylist_id"
+    t.boolean "collab_mode", default: false
+    t.boolean "fave_folder", default: false
+    t.boolean "privatesubplaylist", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "subsheets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.boolean "collab_mode", default: false
-    t.boolean "fave_folder", default: false
-    t.boolean "privatesubsheet", default: false
     t.datetime "created_on"
     t.datetime "updated_on"
     t.integer "user_id"
     t.integer "mainsheet_id"
+    t.boolean "collab_mode", default: false
+    t.boolean "fave_folder", default: false
+    t.boolean "privatesubsheet", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

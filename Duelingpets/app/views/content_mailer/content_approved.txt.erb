@@ -10,6 +10,8 @@
    Your new sound <%= @content.title %> was approved!
 <% elsif @type == "Chapter" %>
    Your new chapter <%= @content.title %> was approved!
+<% elsif @type == "Movie" %>
+   Your new movie <%= @content.title %> was approved!
 <% end %>
 ===============================================
 
@@ -49,6 +51,9 @@ that it fits into the correct book group. The
    forth from the pages. The voice acting if any is
    really spot on and sounds quite good. The character
    art if any looks really cool too.
+<% elsif @type == "Movie" %>
+   movie you have created is really nice. The other
+   users will have a lot of fun watching your video.
 <% end %>
 In recognition of your effort we have decided
 to add these <%= @points %> points to your account.

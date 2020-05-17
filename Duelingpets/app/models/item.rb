@@ -28,7 +28,7 @@ class Item < ApplicationRecord
    validates :fun, presence: true, format: { with: VALID_VALUE_REGEX}
    validates :durability, presence: true, format: { with: VALID_VALUE_REGEX}
    validates :rarity, presence: true, format: { with: VALID_VALUE_REGEX}
-   validates :itemworth, presence: true, format: { with: VALID_VALUE_REGEX}
+   validates :emeraldcost, presence: true, format: { with: VALID_VALUE_REGEX}
 
    #Overides the default parameters to use vname in place of the id code
    def to_param

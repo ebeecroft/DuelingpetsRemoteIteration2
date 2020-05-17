@@ -16,6 +16,8 @@
          <h1><%= @content.user.vname %>'s new sound <%= @content.title %> is awaiting your review!</h1>
       <% elsif @type == "Chapter" %>
          <h1><%= @content.user.vname %>'s new chapter <%= @content.title %> is awaiting your review!</h1>
+      <% elsif @type == "Movie %>
+         <h1><%= @content.user.vname %>'s new movie <%= @content.title %> is awaiting your review!</h1>
       <% end %>
       <p>
          <% if @type == "Blog" %>
@@ -42,6 +44,10 @@
             Greetings my review team we have a writer by the name
             of <%= @content.user.vname %> who is creating some new
             chapters for the site.
+         <% elsif @type == "Movie" %>
+            Greeting my review team we have a director by the name
+            of <%= @content.user.vname %> who is creating some new
+            movies for the site.
          <% end %>
          So I gathered you all together to have a look at his
          newest submission to see if it fits within our
@@ -69,11 +75,14 @@
             This sound might be a song, a radio walkthrough, or
             others. As such I would like you to look this content
             over.
-         <% elsif @type == "Chapter %>
+         <% elsif @type == "Chapter" %>
             This chapter might contain some character voices or
             background music, there also might be some images of the
             characters themselves in addition to the story itself.
             As such I would like you to look this content over.
+         <% elsif @type == "Movie" %>
+            This movie might be a cartoon, a game lp, or others. As
+            such I would like you to look this content over.
          <% end %>
          Be sure to check to see if this content does indeed fit
          the book group that it has been assigned to. Please give
@@ -107,6 +116,9 @@
             points added to their account.
          <% elsif @type == "Chapter" %>
             Now if you approve the chapter then the user gets
+            points added to their account.
+         <% elsif @type == "Movie" %>
+            Now if you approve the movie then the user gets
             points added to their account.
          <% end %>
          If you deny the content please get in touch with the

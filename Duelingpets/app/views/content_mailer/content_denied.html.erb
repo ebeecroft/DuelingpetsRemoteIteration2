@@ -16,6 +16,8 @@
          <h1>Your new sound <%= @content.title %> was denied!</h1>
       <% elsif @type == "Chapter" %>
          <h1>Your new chapter <%= @content.title %> was denied!</h1>
+      <% elsif @type == "Movie" %>
+         <h1>Your new movie <%= @content.title %> was denied!</h1>
       <% end %>
       <p>
          Our review team has taken the time to do look over
@@ -59,6 +61,12 @@
             bookgroup, or the music and images might not be
             suitable for our community. The content may need to
             be changed just a tad before it can be approved.
+         <% elsif @type == "Movie" %>
+            The video of this movie may not be suitable for our
+            community. It is also possible that the bookgroup
+            was set to the wrong type for this type of video.
+            The content may need to be changed just a tad
+            before it can be approved.
          <% end %>
          Our review team will get in touch with you to go
          over the specifics. Do not worry these things

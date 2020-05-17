@@ -36,6 +36,12 @@ class User < ApplicationRecord
    has_many :books, :foreign_key => "user_id", :dependent => :destroy
    has_many :chapters, :foreign_key => "user_id", :dependent => :destroy
 
+   #Relationships for video content
+   has_many :channels, :foreign_key => "user_id", :dependent => :destroy
+   has_many :mainplaylists, :foreign_key => "user_id", :dependent => :destroy
+   has_many :subplaylists, :foreign_key => "user_id", :dependent => :destroy
+   has_many :movies, :foreign_key => "user_id", :dependent => :destroy
+
    #Regex code for managing the user section
    VALID_NAME_REGEX = /\A[a-z][a-z][a-z0-9]+\z/i
    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z0-9\d\-.]+\.[a-z0-9]+\z/i

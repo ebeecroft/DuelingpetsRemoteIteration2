@@ -55,6 +55,10 @@ module CusersHelper
                   if(user.music_on)
                      sound = (audio_tag(getMusicOrVideo("Sound", user), :loop => true, :autoplay => true))
                   end
+               elsif(type == "Channel")
+                  if(user.music_on)
+                     sound = (audio_tag(getMusicOrVideo("Sound", user), :loop => true, :autoplay => true))
+                  end
                elsif(type == "User")
                   if(user.userinfo.music_on)
                      sound = (audio_tag(getMusicOrVideo("User", user), :loop => true, :autoplay => true))
@@ -85,6 +89,10 @@ module CusersHelper
                   dragonhoard = Dragonhoard.find_by_id(1)
                   sound = (audio_tag(getMusicOrVideo("Sound", dragonhoard), :loop => true, :autoplay => true))
                elsif(type == "Jukebox")
+                  if(user.music_on)
+                     sound = (audio_tag(getMusicOrVideo("Sound", user), :loop => true, :autoplay => true))
+                  end
+               elsif(type == "Channel")
                   if(user.music_on)
                      sound = (audio_tag(getMusicOrVideo("Sound", user), :loop => true, :autoplay => true))
                   end
