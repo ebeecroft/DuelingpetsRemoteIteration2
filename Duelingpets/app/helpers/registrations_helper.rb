@@ -149,6 +149,20 @@ module RegistrationsHelper
          newPouch.expiretime = timeout
          @pouch = newPouch
          @pouch.save
+
+         #Builds the pouchslots
+         newPouchslot = Pouchslot.new(params[:pouchslot])
+         newPouchslot.pouch_id = @pouch.id
+         newPouchslot.pouchtype1_id = 2
+         newPouchslot.pouchtype2_id = 3
+         newPouchslot.pouchtype3_id = 4
+         newPouchslot.pouchtype4_id = 5
+         newPouchslot.pouchtype5_id = 6
+         newPouchslot.pouchtype6_id = 7
+         newPouchslot.pouchtype7_id = 8
+         newPouchslot.pouchtype8_id = 9
+         @pouchslot = newPouchslot
+         @pouchslot.save
       end
 
       def buildUserParameters(user, type)
