@@ -130,8 +130,8 @@ module MainplaylistsHelper
 
                         if(type == "create")
                            mainplaylistcost = Fieldcost.find_by_name("Mainplaylist")
-                           if(logged_in.pouch.amount - mainplaylist.amount >= 0)
-                              logged_in.pouch.amount -= mainplaylist.amount
+                           if(logged_in.pouch.amount - mainplaylistcost.amount >= 0)
+                              logged_in.pouch.amount -= mainplaylistcost.amount
                               @pouch = logged_in.pouch
                               @pouch.save
                               if(@mainplaylist.save)

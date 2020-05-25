@@ -40,7 +40,7 @@
       <% end %>
       <% if movie.ogv.to_s != "" || movie.mp4.to_s != "" %>
          <br>
-         <p><%= video_tag(getMusicOrVideo("Movie", movie), :controls => true) %></p>
+         <p><%= video_tag(getMusicOrVideo("Movie", movie), size: "200x200", :controls => true) %></p>
       <% end %>
       <br>
       <% if movie.user.userinfo.miniavatar.to_s != "" %>

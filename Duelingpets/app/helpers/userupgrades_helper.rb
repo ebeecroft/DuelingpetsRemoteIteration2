@@ -17,105 +17,92 @@ module UserupgradesHelper
       end
 
       def getUpgrades(buytype, upgradetype, pouch, upgrade)
-         upgrade = Userupgrade.find_by_id(upgrade)
-         #pouch is necessary
-         if(upgradetype == "Cost")
-            if(buytype == "Pouch")
-               level = pouch.pouchlevel
-            elsif(buytype == "Channel")
-               level = pouch.channellevel
-            elsif(buytype == "Book")
-               level = pouch.booklevel
-            elsif(buytype == "Jukebox")
-               level = pouch.jukeboxlevel
-            elsif(buytype == "OC")
-               level = pouch.oclevel
-            elsif(buytype == "Blog")
-               level = pouch.bloglevel
-            elsif(buytype == "Emerald")
-               level = pouch.emeraldlevel
-            elsif(buytype == "Dreyterrium")
-               level = pouch.dreyterriumlevel
+         #Add an additional slot later to switch to members
+         userup = Userupgrade.find_by_id(upgrade)
+         level = 0
+         if(buytype == "Pouch")
+            level = pouch.pouchslot.free1
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free1 += 1
+               level = pouch.pouchslot.free1
             end
-            upgrademax = upgrade.freecap
-            #if(type)
-               #upgrademax = upgrade.membercap
-            #end
-            if(level < upgrademax)
-               cost = upgrade.price * (level + 1) #Should not be < 0
+         elsif(buytype == "Channel")
+            level = pouch.pouchslot.free8
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free8 += 1
+               level = pouch.pouchslot.free8
             end
-         elsif(upgradetype == "Limit" || upgradetype == "Max")
-            #Need to know which upgrade to use
-            #allso need to seperate maybe
-            level = 0
-            if(buytype == "Pouch")
-               level = pouch.pouchlevel
-            elsif(buytype == "Channel")
-               level = pouch.channellevel
-            elsif(buytype == "Book")
-               level = pouch.booklevel
-            elsif(buytype == "Jukebox")
-               level = pouch.jukeboxlevel
-            elsif(buytype == "OC")
-               level = pouch.oclevel
-            elsif(buytype == "Blog")
-               level = pouch.bloglevel
-            elsif(buytype == "Emerald")
-               level = pouch.emeraldlevel
-            elsif(buytype == "Dreyterrium")
-               level = pouch.dreyterriumlevel
+         elsif(buytype == "Book")
+            level = pouch.pouchslot.free7
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free7 += 1
+               level = pouch.pouchslot.free7
             end
-            cost = upgrade.base + (upgrade.baseinc * level)
-            if(upgradetype == "Max")
-               #add membercap later
-               cost = upgrade.freecap
+         elsif(buytype == "Jukebox")
+            level = pouch.pouchslot.free6
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free6 += 1
+               level = pouch.pouchslot.free6
+            end
+         elsif(buytype == "OC")
+            level = pouch.pouchslot.free4
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free4 += 1
+               level = pouch.pouchslot.free4
+            end
+         elsif(buytype == "Blog")
+            level = pouch.pouchslot.free3
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free3 += 1
+               level = pouch.pouchslot.free3
+            end
+         elsif(buytype == "Emerald")
+            level = pouch.pouchslot.free2
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free2 += 1
+               level = pouch.pouchslot.free2
+            end
+         elsif(buytype == "Dreyterrium")
+            level = pouch.pouchslot.free5
+            if(upgradetype == "Purchase")
+               pouch.pouchslot.free5 += 1
+               level = pouch.pouchslot.free5
+            end
+         end
+
+         cost = 0
+         #Determines the cost
+         if(!userup.nil?)
+            if(upgradetype == "Cost")
+               upgrademax = userup.freecap
+               if(level < upgrademax)
+                  cost = userup.price * (level + 1)
+               end
+            elsif(upgradetype == "Limit" || upgradetype == "Max")
+               cost = userup.base + (userup.baseinc * level)
+               if(upgradetype == "Max")
+                  cost = userup.freecap
+               end
+            elsif(upgradetype == "Purchase")
+               @pouchslot = pouch.pouchslot
+               @pouchslot.save
+               cost = level
             end
          end
          return cost
       end
 
-      def upgradeUser(buytype)
+      def upgradeUser(buytype, upgrade)
          logged_in = current_user
          pouchFound = Pouch.find_by_id(params[:pouch_id])
          if((logged_in && pouchFound) && (logged_in.id == pouchFound.user_id))
-            price = getUpgrades(buytype, "Cost", pouchFound)
+            price = getUpgrades(buytype, "Cost", pouchFound, upgrade)
+            message = "#{buytype}"
             if(price != 0 && (pouchFound.amount - price > -1))
                pouchFound.amount -= price
-               message1 = ""
-               message2 = ""
-               if(buytype == "Pouch")
-                  pouchFound.pouchlevel += 1
-                  message1 = "pouch"
-                  message2 = "#{pouchFound.pouchlevel}"
-               elsif(buytype == "Channel")
-                  pouchFound.channellevel += 1
-                  message1 = "channel"
-                  message2 = "#{pouchFound.channellevel}"
-               elsif(buytype == "Book")
-                  pouchFound.booklevel += 1
-                  message1 = "book"
-                  message2 = "#{pouchFound.booklevel}"
-               elsif(buytype == "Jukebox")
-                  pouchFound.jukeboxlevel += 1
-                  message1 = "jukebox"
-                  message2 = "#{pouchFound.jukeboxlevel}"
-               elsif(buytype == "OC")
-                  pouchFound.oclevel += 1
-                  message1 = "oc"
-                  message2 = "#{pouchFound.oclevel}"
-               elsif(buytype == "Blog")
-                  pouchFound.bloglevel += 1
-                  message1 = "blog"
-                  message2 = "#{pouchFound.bloglevel}"
-               elsif(buytype == "Emerald")
-                  pouchFound.emeraldlevel += 1
-                  message1 = "emerald"
-                  message2 = "#{pouchFound.emeraldlevel}"
-               elsif(buytype == "Dreyterrium")
-                  pouchFound.dreyterriumlevel += 1
-                  message1 = "dreyore"
-                  message2 = "#{pouchFound.dreyterriumlevel}"
-               end
+               message1 = "#{buytype}"
+               level = getUpgrades(buytype, "Purchase", pouchFound, upgrade)
+               message2 = "#{level}"
                @pouch = pouchFound
                @pouch.save
                flash[:success] = "Your " + message1 + " level is now: " + message2
@@ -184,7 +171,8 @@ module UserupgradesHelper
                end
             elsif(type == "upgrade")
                buytype = params[:buyname]
-               upgradeUser(buytype)
+               upgrade = params[:upnumber]
+               upgradeUser(buytype, upgrade)
             end
          end
       end

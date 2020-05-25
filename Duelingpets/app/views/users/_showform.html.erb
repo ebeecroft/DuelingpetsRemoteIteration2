@@ -4,7 +4,7 @@
       <p>Donationbox section</p>
       <p>Capacity: <%= getUserContent(@user, "Donationbox") %>/<%= @user.donationbox.capacity %></p>
       <p>Box open: <%= @user.donationbox.box_open %></p>
-      <% if(@user.donationbox_open) %>
+      <% if(@user.donationbox.box_open) %>
          <% if current_user.id == @user.id %>
             <% if !@user.donationbox.hitgoal %>
                <p><%= button_to 'Refund', donationboxes_refund_path(:id=>@user.donationbox.id), method: :post, class: "button editbutton" %></p>
@@ -24,7 +24,7 @@
          <p><%= @user.vname %>'s donationbox is currently not open for donations!</p>
          <% if current_user.id == @user.id %>
             <br>
-            <p><%= button_to 'Enable Donationbox', edit_user_donationbox_path(@user), method: :get, class: "button editbutton" %></p>
+            <p><%= button_to 'Enable Donationbox', edit_user_donationbox_path(@user), method: :get, class: "button submitbutton" %></p>
          <% end %>
       <% end %>
    <% end %>

@@ -59,7 +59,7 @@
       <p>Updated: <%= distance_of_time_in_words_to_now mainplaylist.updated_on %> ago on(<%= mainplaylist.updated_on.strftime("%B-%d-%Y") %>)</p>
       <br>
       <% if !getMainplaylistMusic(mainplaylist).nil? %>
-         <p><%= video_tag(getMusicOrVideo("Movie", getMainplaylistMusic(mainplaylist)), :controls => true) %></p>
+         <p><%= video_tag(getMusicOrVideo("Movie", getMainplaylistMusic(mainplaylist)), size: "200x200", :controls => true) %></p>
          <br>
       <% end %>
       <% if mainplaylist.user.userinfo.miniavatar.to_s != "" %>

@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-   include JukeboxesHelper
+   include ChannelsHelper
    include BookgroupretrievalHelper
 
    def index
