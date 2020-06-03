@@ -20,7 +20,7 @@
          <p><%= image_tag(@dragonhoard.dragonimage_url(:thumb)) %></p>
          <br>
       <% end %>
-      <p><%= textFormater("Multi", @dragonhoard.message, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", @dragonhoard.message, "All").html_safe %></p>
       <% if @dragonhoard.denholiday %>
          <br>
          <p>Glitchy the dragon is on holiday and all sources of points have been disabled!</p>

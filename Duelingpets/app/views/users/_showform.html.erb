@@ -19,7 +19,7 @@
             @user.donationbox.initialized_on.strftime("%B-%d-%Y") %>)
          </p>
          <br>
-         <p><%= textFormater("Multi", @user.donationbox.description, "All").html_safe %></p>
+         <p class="textindent"><%= textFormater("Multi", @user.donationbox.description, "All").html_safe %></p>
       <% else %>
          <p><%= @user.vname %>'s donationbox is currently not open for donations!</p>
          <% if current_user.id == @user.id %>

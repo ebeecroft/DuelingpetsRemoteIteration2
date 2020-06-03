@@ -15,8 +15,8 @@
     <%= form.text_field :title %>
   </div>
   <div class="pageformat">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
+    <%= form.label :story %>
+    <%= form.text_area :story %>
   </div>
   <p class="pageformat">Bookcover</p>
   <div class="pageformat">
@@ -30,17 +30,17 @@
      <%= form.text_field :remote_bookcover_url %>
      <%= form.hidden_field :bookcover_cache %>
   </div>
-  <p class="pageformat">Storyscene</p>
+  <p class="pageformat">Storyscene1</p>
   <div class="pageformat">
-     <%= image_tag @chapter.storyscene_url(:thumb).to_s if @chapter.storyscene? %>
+     <%= image_tag @chapter.storyscene1_url(:thumb).to_s if @chapter.storyscene1? %>
   </div>
   <div class="pageformat">
-     <%= form.file_field :storyscene %>
+     <%= form.file_field :storyscene1 %>
   </div>
   <div class="pageformat">
-     <%= form.label :remote_storyscene_url, "or Storyscene URL" %>
-     <%= form.text_field :remote_storyscene_url %>
-     <%= form.hidden_field :storyscene_cache %>
+     <%= form.label :remote_storyscene1_url, "or Storyscene1 URL" %>
+     <%= form.text_field :remote_storyscene1_url %>
+     <%= form.hidden_field :storyscene1_cache %>
   </div>
   <p class="pageformat">Voice1ogg files</p>
   <div class="pageformat">

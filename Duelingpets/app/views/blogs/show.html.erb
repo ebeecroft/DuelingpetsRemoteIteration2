@@ -81,7 +81,7 @@
       <% end %>
    <% end %>
    <br>
-   <p><%= textFormater("Multi", @blog.description, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @blog.description, "All").html_safe %></p>
 </div>
 <br>
 <p class="formlinks"><%= link_to "User Blogs", user_blogs_path(@blog.user) %> |

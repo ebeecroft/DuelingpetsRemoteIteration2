@@ -17,7 +17,7 @@
       <p>Account type: <%= registration.accounttype.name %></p>
       <p>Shared: <%= registration.shared %></p>
       <br>
-      <p><%= registration.message %></p>
+      <p class="textindent"><%= textFormater("Multi", registration.message, "All").html_safe %></p>
    </div>
    <br>
 <% end %>

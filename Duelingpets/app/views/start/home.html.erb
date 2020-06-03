@@ -17,7 +17,7 @@
 <br>
 <p class="centerpagecontent"><%= image_tag(displayType("Mascot")) %></p>
 <div class="pageformat">
-   <p>Greetings welcome to Duelingpets, we are currently working
+   <p class="textindent">Greetings welcome to Duelingpets, we are currently working
       on building some new features. So some of these new ones
       might be a bit buggy.
    </p>
@@ -62,7 +62,7 @@
             <% end %>
          </p>
          <br>
-         <p><%= textFormater("Multi", content.story, "All").html_safe %></p>
+         <p class="textindent"><%= textFormater("Multi", content.story, "All").html_safe %></p>
       <% end %>
       <br>
    <% end %>

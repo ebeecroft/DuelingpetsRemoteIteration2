@@ -5,7 +5,7 @@
 <% end %>
 <% @shoutboxes.each do |shoutbox| %>
    <div class="pageformat">
-      <p>Capacity: 0/<%= shoutbox.capacity %></p>
+      <p>Capacity: <%= shoutbox.shouts.count %>/<%= shoutbox.capacity %></p>
       <p>Box open: <%= shoutbox.box_open %></p>
       <% if shoutbox.user.userinfo.miniavatar.to_s != "" %>
          <p><%= image_tag(shoutbox.user.userinfo.miniavatar_url(:thumb)) %></p>

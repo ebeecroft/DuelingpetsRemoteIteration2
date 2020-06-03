@@ -19,7 +19,7 @@ module BooksHelper
 
       def updateBookworld(bookworld)
          bookworld.updated_on = currentTime
-         @bookworld = jukebox
+         @bookworld = bookworld
          @bookworld.save
       end
 
@@ -29,6 +29,9 @@ module BooksHelper
             logged_in = current_user
             if(logged_in && ((logged_in.id == bookFound.user_id) || logged_in.pouch.privilege == "Admin"))
                bookFound.updated_on = currentTime
+               allGroups = Bookgroup.order("created_on desc")
+               allowedGroups = allGroups.select{|bookgroup| bookgroup.id <= getWritingGroup(logged_in, "Id")}
+               @group = allowedGroups
                @book = bookFound
                @bookworld = Bookworld.find_by_name(bookFound.bookworld.name)
                if(type == "update")
@@ -58,7 +61,7 @@ module BooksHelper
                @book = bookFound
 
                chapters = bookFound.chapters
-               @chapters = Kaminari.paginate_array(chapters).page(getBookParams("Page")).per(10)
+               @chapters = Kaminari.paginate_array(chapters).page(getBookParams("Page")).per(1)
                if(type == "destroy")
                   logged_in = current_user
                   if(logged_in && ((logged_in.id == bookFound.user_id) || logged_in.pouch.privilege == "Admin"))
@@ -117,6 +120,9 @@ module BooksHelper
                         newBook.user_id = logged_in.id
                      end
 
+                     allGroups = Bookgroup.order("created_on desc")
+                     allowedGroups = allGroups.select{|bookgroup| bookgroup.id <= getWritingGroup(logged_in, "Id")}
+                     @group = allowedGroups
                      @book = newBook
                      @bookworld = bookworldFound
 

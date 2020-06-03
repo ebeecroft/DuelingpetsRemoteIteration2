@@ -1,7 +1,7 @@
 <% provide(:h1, "Alternate Email") %>
 <div class="pageformat">
    <p><%= image_tag(@artpage.art_url(:thumb)) %></p>
-   <p><%= textFormater("Multi", @artpage.message, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @artpage.message, "All").html_safe %></p>
    <br>
    <h2>Password Recovery of Last Resort!</h2>
 </div>

@@ -29,6 +29,10 @@ module StartHelper
             allMovies = Movie.all
             toReview = allMovies.select{|content| !content.reviewed}
             value = toReview.count
+         elsif(type == "Chapter")
+            allChapters = Chapter.all
+            toReview = allChapters.select{|content| !content.reviewed}
+            value = toReview.count
          elsif(type == "Shout")
             allShouts = Shout.all
             toReview = allShouts.select{|content| !content.reviewed}
@@ -162,6 +166,21 @@ module StartHelper
             allContents = Movie.all
             if(allContents.count != 0)
                firstContent = Movie.first.created_on.year
+            end
+         elsif(type == "Bookworld")
+            allContents = Bookworld.all
+            if(allContents.count != 0)
+               firstContent = Bookworld.first.created_on.year
+            end
+         elsif(type == "Book")
+            allContents = Book.all
+            if(allContents.count != 0)
+               firstContent = Book.first.created_on.year
+            end
+         elsif(type == "Chapter")
+            allContents = Chapter.all
+            if(allContents.count != 0)
+               firstContent = Chapter.first.created_on.year
             end
          elsif(type == "Blog")
             allContents = Blog.all
@@ -636,47 +655,6 @@ module StartHelper
                   else
                      redirect_to root_path
                   end
-               end
-            elsif(type == "muteAudio")
-               if(current_user)
-                  if(current_user.userinfo.mute_on)
-                     current_user.userinfo.mute_on = false
-                  else
-                     current_user.userinfo.mute_on = true
-                  end
-                  @userinfo = current_user.userinfo
-                  @userinfo.save
-               end
-               if(params[:pageType] == "Home")
-                  redirect_to root_path
-               elsif(params[:pageType] == "Hoard")
-                  redirect_to dragonhoards_path
-               elsif(params[:pageType] == "User")
-                  redirect_to user_path(current_user)
-               elsif(params[:pageType] == "Missing")
-                  redirect_to crazybat_path
-               elsif(params[:pageType] == "CreativeOC")
-                  redirect_to new_user_oc_path(current_user)
-               elsif(params[:pageType] == "Creature")
-                  redirect_to new_user_creature_path(current_user)
-               elsif(params[:pageType] == "Item")
-                  redirect_to new_user_item_path(current_user)
-               elsif(params[:pageType] == "Usermain")
-                  redirect_to user_path(current_user)
-               elsif(params[:pageType] == "Colormain")
-                  redirect_to colorschemes_maintenance_path
-               elsif(params[:pageType] == "Blogmain")
-                  redirect_to blogs_path
-               elsif(params[:pageType] == "OCmain")
-                  redirect_to ocs_path
-               elsif(params[:pageType] == "Itemmain")
-                  redirect_to items_path
-               elsif(params[:pageType] == "Creaturemain")
-                  redirect_to creatures_path
-               elsif(params[:pageType] == "Jukebox")
-                  redirect_to user_jukeboxes_path(current_user)
-               elsif(params[:pageType] == "Channel")
-                  redirect_to user_channels_path(current_user)
                end
             elsif(type == "admincontrols" || type == "keymastercontrols" || type == "reviewercontrols" || type == "managercontrols")
             end

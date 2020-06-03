@@ -40,6 +40,8 @@ module BookgroupretrievalHelper
             else
                groupValue = "Lizardo"
             end
+         elsif(type == "Age")
+            groupValue = age
          end
          return groupValue
       end
@@ -50,13 +52,13 @@ module BookgroupretrievalHelper
          nonBot = allUsers.select{|user| ((user.pouch.privilege != "Bot") && (user.pouch.privilege != "Trial")) && ((user.pouch.privilege != "Admin") && (user.pouch.privilege != "Glitchy"))}
 
          #Group values
-         lizardo = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 7.years}
-         rabbit = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 13.years}
-         blueland = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 19.years}
-         dragon = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 25.years}
-         silverwing = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 31.years}
-         harahpin = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) < 37.years}
-         rings = nonBot.select{|user| (currentDate.to_time - user.birthday.to_time) >= 37.years}
+         lizardo = nonBot.select{|user| getWritingGroup(user, "Age") < 7}
+         rabbit = nonBot.select{|user| getWritingGroup(user, "Age")  < 13}
+         blueland = nonBot.select{|user| getWritingGroup(user, "Age") < 19}
+         dragon = nonBot.select{|user| getWritingGroup(user, "Age") < 25}
+         silverwing = nonBot.select{|user| getWritingGroup(user, "Age") < 31}
+         harahpin = nonBot.select{|user| getWritingGroup(user, "Age") < 37}
+         rings = nonBot.select{|user| getWritingGroup(user, "Age") >= 37}
 
          #Count values
          rabbitCount = rabbit.count - lizardo.count

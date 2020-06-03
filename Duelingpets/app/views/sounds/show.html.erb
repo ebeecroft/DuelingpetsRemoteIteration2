@@ -26,7 +26,7 @@
       <% end %>
    </p>
    <br>
-   <p>Description: <%= textFormater("Multi", @sound.description, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @sound.description, "All").html_safe %></p>
    <br>
 </div>
 <p class="formlinks"><%= link_to "Back", mainsheet_subsheet_path(@sound.subsheet.mainsheet, @sound.subsheet) %></p>

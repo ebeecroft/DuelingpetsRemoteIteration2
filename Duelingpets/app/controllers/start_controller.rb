@@ -21,10 +21,6 @@ class StartController < ApplicationController
       mode "verify2"
    end
 
-   def muteAudio
-      mode "muteAudio"
-   end
-
    def activeusers
       mode "activeusers"
    end

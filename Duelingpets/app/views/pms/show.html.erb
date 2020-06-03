@@ -32,7 +32,7 @@
    </p>
    <p>Posts: <%= @pm.pmreplies.count %></p>
    <br>
-   <p>Message: <%= textFormater("Multi", @pm.message, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @pm.message, "All").html_safe %></p>
    <br>
    <% if @pm.pmreplies.count >= 10 %>
       <div class="formlinks"><%= paginate @pm.pmreplies %></div>
@@ -65,7 +65,7 @@
          <% end %>
       </p>
       <br>
-      <p>Message: <%= textFormater("Multi", pmreply.message, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", pmreply.message, "All").html_safe %></p>
       <br>
    <% end %>
    <% if((current_user.id == @pm.user_id) || (current_user.id == @pm.pmbox.user_id)) %>

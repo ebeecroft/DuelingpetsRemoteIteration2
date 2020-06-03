@@ -58,12 +58,19 @@ module UsersHelper
             allOCs = user.ocs.order("created_on desc")
             reviewedOCs = allOCs.select{|oc| oc.reviewed}
             value = reviewedOCs.count
+         elsif(type == "Donors")
+            allDonors = Donors.order("created_on desc")
+            donors = allDonors.select{|donor| donor.donationbox_id == user.donationbox.id && !donor.pointsreceived}
+            value = donors.sum(:amount)
+         elsif(type == "Channels")
+            allChannels = user.channels.order("created_on desc")
+            value = allChannels.count
          elsif(type == "Jukeboxes")
             allJukeboxes = user.jukeboxes.order("created_on desc")
             value = allJukeboxes.count
-         elsif(type == "Bookworlds")
-            allWorlds = user.bookworlds.order("created_on desc")
-            value = allWorlds.count
+         elsif(type == "Books")
+            allBooks = user.books.order("created_on desc")
+            value = allBooks.count
          elsif(type == "PMs")
             allPMs = user.pms.order("created_on desc")
             value = allPMs.count
@@ -326,6 +333,53 @@ module UsersHelper
                   redirect_to user_path(current_user)
                else
                   redirect_to root_path
+               end
+            elsif(type == "muteAudio")
+               if(current_user)
+                  if(current_user.userinfo.mute_on)
+                     current_user.userinfo.mute_on = false
+                  else
+                     current_user.userinfo.mute_on = true
+                  end
+                  @userinfo = current_user.userinfo
+                  @userinfo.save
+               end
+               if(params[:pageType] == "Home")
+                  redirect_to root_path
+               elsif(params[:pageType] == "Hoard")
+                  redirect_to dragonhoards_path
+               elsif(params[:pageType] == "User")
+                  redirect_to user_path(current_user)
+               elsif(params[:pageType] == "Missing")
+                  redirect_to crazybat_path
+               elsif(params[:pageType] == "CreativeOC")
+                  redirect_to new_user_oc_path(current_user)
+               elsif(params[:pageType] == "Creature")
+                  redirect_to new_user_creature_path(current_user)
+               elsif(params[:pageType] == "Item")
+                  redirect_to new_user_item_path(current_user)
+               elsif(params[:pageType] == "Usermain")
+                  redirect_to user_path(current_user)
+               elsif(params[:pageType] == "Colormain")
+                  redirect_to colorschemes_maintenance_path
+               elsif(params[:pageType] == "Blogmain")
+                  redirect_to blogs_path
+               elsif(params[:pageType] == "OCmain")
+                  redirect_to ocs_path
+               elsif(params[:pageType] == "Itemmain")
+                  redirect_to items_path
+               elsif(params[:pageType] == "Creaturemain")
+                  redirect_to creatures_path
+               elsif(params[:pageType] == "Bookworldmain")
+                  redirect_to bookworlds_path
+               elsif(params[:pageType] == "Jukeboxmain")
+                  redirect_to jukeboxes_path
+               elsif(params[:pageType] == "Channelmain")
+                  redirect_to channels_path
+               elsif(params[:pageType] == "Jukebox")
+                  redirect_to user_jukeboxes_path(current_user)
+               elsif(params[:pageType] == "Channel")
+                  redirect_to user_channels_path(current_user)
                end
             end
          end

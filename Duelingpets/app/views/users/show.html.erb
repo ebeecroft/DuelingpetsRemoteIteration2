@@ -29,11 +29,11 @@
       <p><%= image_tag(@user.userinfo.avatar_url(:thumb)) %></p>
    <% end %>
    <% if current_user %>
-      <div class="container">Name: <%= displayName(@user) %></div>
+      <div class="container">Name: <%= profileInfo("Name", @user) %></div>
       <% if current_user.id == @user.id || current_user.pouch.privilege == "Admin" %>
          <div class="container"><%= button_to 'Edit', edit_user_path(@user), method: :get, class: "button editbutton" %></div> <div class="container"><%= button_to 'Destroy', @user, method: :delete, class: "button destroybutton", data: { confirm: 'Are you sure?' } %></div>
       <% end %>
-      <p>Birthday: <%= displayBirthday(@user) %></p>
+      <p>Birthday: <%= profileInfo("Birthday", @user) %></p>
       <% if current_user.pouch.privilege == "Admin" || current_user.id == @user.id %>
          <p>Email: <%= @user.email %></p>
          <p>Account type: <%= @user.accounttype.name %></p>
@@ -56,7 +56,7 @@
       <p class="formlinks">Suspended by: <%= getUserPrivilege(getBanned(@user).first.from_user) %><%= link_to getBanned(@user).first.from_user.vname, user_path(getBanned(@user).first.from_user) %></p>
       <p>Time left: <%= distance_of_time_in_words_to_now getBanned(@user).first.timelimit %></p>
       <p>User fined: <%= getBanned(@user).first.fines %> points</p>
-      <p><%= getBanned(@user).first.reason %></p>
+      <p class="textindent"><%= getBanned(@user).first.reason %></p>
    <% end %>
    <!--End Ban section-->
    <% if current_user && (current_user.id == @user.id || current_user.pouch.privilege == "Admin") %>
@@ -72,7 +72,7 @@
       <p>Reading Group: <%= getReadingGroup(@user, "Name") %></p>
    <% end %>
    <br>
-   <p>Vname: <%= displayVname(@user) %></p>
+   <p>Vname: <%= profileInfo("Vname", @user) %></p>
    <% if(@user.vname != "none") %>
       <% if !@user.referral.nil? %>
          <p class="formlinks">Referred by: <%= getUserPrivilege(@user.referral.referred_by) %><%= link_to @user.referral.referred_by.vname, user_path(@user.referral.referred_by) %></p>
@@ -87,7 +87,7 @@
       <p>Joined: <%= distance_of_time_in_words_to_now @user.joined_on %> ago</p>
       <p>Registered on: <%= distance_of_time_in_words_to_now @user.registered_on %> ago on (<%= @user.registered_on.strftime("%B-%d-%Y") %>)</p>
    <% end %>
-   <p><%= textFormater("Multi", @user.userinfo.info, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @user.userinfo.info, "All").html_safe %></p>
    <% if current_user && current_user.id == @user.id && current_user.pouch.privilege == "Admin" %>
       <br>
       <% if current_user.userinfo.admincontrols_on %>
@@ -180,7 +180,7 @@
             </p>
             <br>
             <p>Message</p>
-            <p><%= textFormater("Multi", shout.message, "All").html_safe %></p>
+            <p class="textindent"><%= textFormater("Multi", shout.message, "All").html_safe %></p>
          <% end %>
          <% if current_user.id != @user.id %>
             <%= form_for [@user.shoutbox, Shout.new] do |form| %>

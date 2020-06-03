@@ -20,4 +20,5 @@ class Chapter < ApplicationRecord
 
    #Validates the chapter information upon submission
    validates :title, presence: true, format: {with: VALID_TITLE_REGEX}
+   validates :story, presence: true
 end

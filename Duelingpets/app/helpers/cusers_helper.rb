@@ -6,38 +6,31 @@ module CusersHelper
          @artpage = contentFound
       end
 
-      #Combine these three
-      def displayName(user)
-         name = ""
-         if(current_user && (current_user.pouch.privilege == "Admin" || current_user.id == user.id))
-            name = (user.firstname + " " + user.lastname)
-         else
-            name = user.firstname
+      def profileInfo(type, user)
+         info = ""
+         if(type == "Name" || type == "Birthday")
+            if(current_user && (current_user.pouch.privilege == "Admin" || current_user.id == user.id))
+               if(type == "Name")
+                  info = (user.firstname + " " + user.lastname)
+               else
+                  info = user.birthday.strftime("%B-%d-%Y")
+               end
+            else
+               if(type == "Name")
+                  info = user.firstname
+               else
+                  info = user.birthday.strftime("%B-%d")
+               end
+            end
+         elsif(type == "Vname")
+            if(current_user)
+               info = user.vname + " joined on: " + user.joined_on.strftime("%B-%d-%Y")
+            else
+               info = user.vname
+            end
          end
-         return name
+         return info
       end
-
-      def displayBirthday(user)
-         birthday = ""
-         if(current_user && (current_user.pouch.privilege == "Admin" || current_user.id == user.id))
-            birthday = user.birthday.strftime("%B-%d-%Y")
-         else
-            birthday = user.birthday.strftime("%B-%d")
-         end
-         return birthday
-      end
-
-      def displayVname(user)
-         vname = ""
-         if(current_user)
-            vname = user.vname + " joined on: " + user.joined_on.strftime("%B-%d-%Y")
-         else
-            vname = user.vname
-         end
-         return vname
-      end
-
-      #Combine ends
 
       def playMusicLoop(type, user)
          sound = ""
@@ -124,98 +117,81 @@ module CusersHelper
          return sound
       end
 
-      def getUserPrivilege(user)
-         if(user.pouch.privilege == "Admin")
-            value = "@"
-         else
-            pouchFound = Pouch.find_by_user_id(user.id)
-            if(pouchFound)
-               type = pouchFound.privilege
-               if(type == "Keymaster")
-                  value = "$"
-               elsif(type == "Reviewer")
-                  value = "^"
-               elsif(type == "Beta")
-                  value = "%"
-               elsif(type == "Banned")
-                  value = "!"
-               elsif(type == "Trial")
-                  value = "?"
-               else
-                  value = "~"
+      def getChaptermusic(type, content)
+         music = ""
+         if(current_user)
+            #Determine if we are looking at a video or audio browser
+            oggbrowser = (current_user.userinfo.audiobrowser == "ogg")
+            mp3browser = (current_user.userinfo.audiobrowser == "mp3")
+
+            #Determines the correct type of content to play
+            if(oggbrowser)
+               music = ""
+               if(type == "Voice1")
+                  if(content.voice1ogg_url.to_s != "")
+                     music = content.voice1ogg_url
+                  else
+                     music = content.voice1mp3_url
+                  end
+               elsif(type == "Voice2")
+                  if(content.voice2ogg_url.to_s != "")
+                     music = content.voice2ogg_url
+                  else
+                     music = content.voice2mp3_url
+                  end
+               elsif(type == "Voice3")
+                  if(content.voice3ogg_url.to_s != "")
+                     music = content.voice3ogg_url
+                  else
+                     music = content.voice3mp3_url
+                  end
                end
-            else
-               value = "~"
+            elsif(mp3browser)
+               music = ""
+               if(type == "Voice1")
+                  if(content.voice1mp3_url.to_s != "")
+                     music = content.voice1mp3_url
+                  else
+                     music = content.voice1ogg_url
+                  end
+               elsif(type == "Voice2")
+                  if(content.voice2mp3_url.to_s != "")
+                     music = content.voice2mp3_url
+                  else
+                     music = content.voice2ogg_url
+                  end
+               elsif(type == "Voice3")
+                  if(content.voice3mp3_url.to_s != "")
+                     music = content.voice3mp3_url
+                  else
+                     music = content.voice3ogg_url
+                  end
+               end
+            end
+         else
+            #Determines the content to play for guests
+            music = ""
+            if(type == "Voice1")
+               if(content.voice1ogg_url.to_s != "")
+                  music = content.voice1ogg_url
+               else
+                  music = content.voice1mp3_url
+               end
+            elsif(type == "Voice2")
+               if(content.voice2ogg_url.to_s != "")
+                  music = content.voice2ogg_url
+               else
+                  music = content.voice2mp3_url
+               end
+            elsif(type == "Voice3")
+               if(content.voice3ogg_url.to_s != "")
+                  music = content.voice3ogg_url
+               else
+                  music = content.voice3mp3_url
+               end
             end
          end
-         return value
-      end
-
-      def getUserStatus(status)
-         allPouches = Pouch.all
-
-         #Status value
-         activatedUsers = allPouches.select{|pouch| pouch.activated && ((pouch.privilege != "Bot" && pouch.privilege != "Trial") && (pouch.privilege != "Admin" && pouch.privilege != "Glitchy"))}
-         
-         onlineUsers = activatedUsers.select{|pouch| !pouch.signed_out_at && (pouch.last_visited && (currentTime - pouch.last_visited) < 30.minutes)}
-         inactiveUsers = activatedUsers.select{|pouch| !pouch.signed_out_at && (pouch.last_visited && (currentTime - pouch.last_visited) >= 30.minutes)}
-         offlineUsers = activatedUsers.select{|pouch| (pouch.signed_in_at && pouch.signed_out_at) && !pouch.gone}
-         goneUsers = activatedUsers.select{|pouch| (pouch.signed_in_at && pouch.signed_out_at) && pouch.gone}
-         bots = allPouches.select{|pouch| !pouch.activated}
-
-         #Count values
-         onlineCount = onlineUsers.count
-         inactiveCount = inactiveUsers.count
-         offlineCount = offlineUsers.count
-         goneCount = goneUsers.count
-         botCount = bots.count
-
-         value = onlineCount
-         if(status == "Inactive")
-            value = inactiveCount
-         elsif(status == "Offline")
-            value = offlineCount
-         elsif(status == "Gone")
-            value = goneCount
-         elsif(status == "Bots")
-            value = botCount
-         end
-         return value
-      end
-
-      def newestContent(type)
-         allContents = ""
-
-         #Determines the correct type of content to display
-         if(type == "Art")
-            allContents = Art.order("created_on desc")
-         elsif(type == "Movie")
-            allContents = Movie.order("created_on desc")
-         elsif(type == "Sound")
-            allContents = Sound.order("created_on desc")
-         elsif(type == "Chapter")
-            allContents = Chapter.order("created_on desc")
-         elsif(type == "OC")
-            allContents = Oc.order("created_on desc")
-         elsif(type == "Item")
-            allContents = Item.order("created_on desc")
-         elsif(type == "Creature")
-            allContents = Creature.order("created_on desc")
-         else
-            raise "Invalid content type detected!"
-         end
-         if(type != "Item" && type != "Creature")
-            reviewedContents = allContents.select{|content| content.reviewed && checkBookgroupStatus(content)}
-         else
-            reviewedContents = allContents.select{|content| content.reviewed}
-         end
-         contents = reviewedContents.take(3)
-         return contents
-      end
-
-      def checkBookgroupStatus(content)
-         group = ((content.bookgroup.name == "Peter-Rabbit") || (current_user && content.bookgroup.id <= getReadingGroup(current_user, "Id")))
-         return group
+         return music
       end
 
       def getMusicOrVideo(type, content)
@@ -295,6 +271,102 @@ module CusersHelper
             end
          end
          return music
+      end
+
+      def getUserPrivilege(user)
+         if(user.pouch.privilege == "Admin")
+            value = "@"
+         else
+            pouchFound = Pouch.find_by_user_id(user.id)
+            if(pouchFound)
+               type = pouchFound.privilege
+               if(type == "Keymaster")
+                  value = "$"
+               elsif(type == "Reviewer")
+                  value = "^"
+               elsif(type == "Beta")
+                  value = "%"
+               elsif(type == "Banned")
+                  value = "!"
+               elsif(type == "Trial")
+                  value = "?"
+               else
+                  value = "~"
+               end
+            else
+               value = "~"
+            end
+         end
+         return value
+      end
+
+      def getUserStatus(status)
+         allPouches = Pouch.all
+
+         #Status value
+         activatedUsers = allPouches.select{|pouch| pouch.activated && ((pouch.privilege != "Bot" && pouch.privilege != "Trial") && (pouch.privilege != "Admin" && pouch.privilege != "Glitchy"))}
+         
+         onlineUsers = activatedUsers.select{|pouch| !pouch.signed_out_at && (pouch.last_visited && (currentTime - pouch.last_visited) < 30.minutes)}
+         inactiveUsers = activatedUsers.select{|pouch| !pouch.signed_out_at && (pouch.last_visited && (currentTime - pouch.last_visited) >= 30.minutes)}
+         offlineUsers = activatedUsers.select{|pouch| (pouch.signed_in_at && pouch.signed_out_at) && !pouch.gone}
+         goneUsers = activatedUsers.select{|pouch| (pouch.signed_in_at && pouch.signed_out_at) && pouch.gone}
+         bots = allPouches.select{|pouch| !pouch.activated}
+
+         #Count values
+         onlineCount = onlineUsers.count
+         inactiveCount = inactiveUsers.count
+         offlineCount = offlineUsers.count
+         goneCount = goneUsers.count
+         botCount = bots.count
+
+         value = onlineCount
+         if(status == "Inactive")
+            value = inactiveCount
+         elsif(status == "Offline")
+            value = offlineCount
+         elsif(status == "Gone")
+            value = goneCount
+         elsif(status == "Bots")
+            value = botCount
+         end
+         return value
+      end
+
+      def newestContent(type)
+         allContents = ""
+
+         #Determines the correct type of content to display
+         if(type == "Art")
+            allContents = Art.order("created_on desc")
+         elsif(type == "Movie")
+            allContents = Movie.order("created_on desc")
+         elsif(type == "Sound")
+            allContents = Sound.order("created_on desc")
+         elsif(type == "Chapter")
+            allContents = Chapter.order("created_on desc")
+         elsif(type == "OC")
+            allContents = Oc.order("created_on desc")
+         elsif(type == "Item")
+            allContents = Item.order("created_on desc")
+         elsif(type == "Creature")
+            allContents = Creature.order("created_on desc")
+         elsif(type == "Chapter")
+            allContents = Chapter.order("created_on desc")
+         else
+            raise "Invalid content type detected!"
+         end
+         if(type != "Item" && type != "Creature")
+            reviewedContents = allContents.select{|content| content.reviewed && checkBookgroupStatus(content)}
+         else
+            reviewedContents = allContents.select{|content| content.reviewed}
+         end
+         contents = reviewedContents.take(3)
+         return contents
+      end
+
+      def checkBookgroupStatus(content)
+         group = ((content.bookgroup.name == "Peter-Rabbit") || (current_user && content.bookgroup.id <= getReadingGroup(current_user, "Id")))
+         return group
       end
 
       def logout_user

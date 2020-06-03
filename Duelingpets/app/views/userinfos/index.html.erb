@@ -23,7 +23,7 @@
             for <%= distance_of_time_in_words_to_now getTime(userinfo.user) %>
          <% end %>
       </p>
-      <p><%= textFormater("Multi", userinfo.info, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", userinfo.info, "All").html_safe %></p>
    </div>
    <br>
 <% end %>

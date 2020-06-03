@@ -44,7 +44,7 @@
       <% end %>
       <p>Posts: <%= pm.pmreplies.count %></p>
       <br>
-      <p>Message: <%= textFormater("Multi", pm.message, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", pm.message, "All").html_safe %></p>
    </div>
    <br>
 <% end %>

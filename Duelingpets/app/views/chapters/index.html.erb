@@ -13,15 +13,15 @@
       <div class="container"><p class="formlinks">Title: <%= link_to chapter.title, book_chapter_path(chapter.book, chapter) %></p></div> <div class="container"><%= button_to 'Edit', edit_book_chapter_path(chapter.book, chapter), method: :get, class: "button editbutton" %></div> <div class="container"><%= button_to 'Destroy', [chapter.book, chapter], method: :delete, class: "button destroybutton", data: { confirm: 'Are you sure?' } %></div>
       <% if chapter.voice1ogg.to_s != "" || chapter.voice1mp3.to_s != "" %>
          <br>
-         <p><%= audio_tag(getMusicOrVideo("Chapter", chapter), :controls => true) %></p>
+         <p><%= audio_tag(getChaptermusic("Voice1", chapter), :controls => true) %></p>
       <% end %>
       <% if chapter.voice2ogg.to_s != "" || chapter.voice2mp3.to_s != "" %>
          <br>
-         <p><%= audio_tag(getMusicOrVideo("Chapter", chapter), :controls => true) %></p>
+         <p><%= audio_tag(getChaptermusic("Voice2", chapter), :controls => true) %></p>
       <% end %>
       <% if chapter.voice3ogg.to_s != "" || chapter.voice3mp3.to_s != "" %>
          <br>
-         <p><%= audio_tag(getMusicOrVideo("Chapter", chapter), :controls => true) %></p>
+         <p><%= audio_tag(getChaptermusic("Voice3", chapter), :controls => true) %></p>
       <% end %>
       <% if chapter.bookcover.to_s != "" %>
          <br>
@@ -47,7 +47,7 @@
          <% end %>
       </p>
       <br>
-      <p>Story: <%= textFormater("Multi", chapter.description, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", chapter.description, "All").html_safe %></p>
    </div>
    <br>
 <% end %>

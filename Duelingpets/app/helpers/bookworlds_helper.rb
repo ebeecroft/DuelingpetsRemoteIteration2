@@ -10,7 +10,7 @@ module BookworldsHelper
          elsif(type == "User")
             value = params[:user_id]
          elsif(type == "Bookworld")
-            value = params.require(:bookworld).permit(:name, :description, :open_world, :privateworld)
+            value = params.require(:bookworld).permit(:name, :description, :open_world, :privateworld, :price)
          elsif(type == "Page")
             value = params[:page]
          else

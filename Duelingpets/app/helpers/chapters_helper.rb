@@ -151,9 +151,9 @@ module ChaptersHelper
                            chapterNumber = bookFound.chapters.count + 1
 
                            #Determines if we should create a new generalchapter
-                           chapterFound = Generalchapter.find_by_chapternum(chapterNumber)
+                           chapterFound = Gchapter.find_by_id(chapterNumber)
                            if(!chapterFound)
-                              newGeneralChapter = Generalchapter.new(params[:generalchapter])
+                              newGeneralChapter = Gchapter.new(params[:gchapter])
                               newGeneralChapter.title = "Chapter-" + chapterNumber.to_s
                               newGeneralChapter.created_on = currentTime
                               newGeneralChapter.chapternum = chapterNumber
@@ -161,7 +161,7 @@ module ChaptersHelper
                               @generalchapter.save
                               chapterFound = newGeneralChapter
                            end
-                           newChapter.generalchapter_id = chapterFound.id
+                           newChapter.gchapter_id = chapterFound.id
                         end
 
                         #Determines the type of bookgroup the user belongs to
@@ -173,7 +173,7 @@ module ChaptersHelper
 
                         if(type == "create")
                            if(@chapter.save)
-                              updateJukebox(@chapter.book)
+                              updateBookworld(@chapter.book)
                               url = "http://www.duelingpets.net/chapters/review"
                               ContentMailer.content_review(@chapter, "Chapter", url).deliver_now
                               flash[:success] = "#{@chapter.title} was successfully created."

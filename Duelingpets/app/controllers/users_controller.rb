@@ -25,6 +25,10 @@ class UsersController < ApplicationController
       mode "music"
    end
 
+   def muteAudio
+      mode "muteAudio"
+   end
+
    def extractore
       mode "extractore"
    end

@@ -22,7 +22,7 @@
       <% end %>
    </p>
    <br>
-   <p><%= textFormater("Multi", @subplaylist.description, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @subplaylist.description, "All").html_safe %></p>
    <br>
    <% if @movies.count >= 10 %>
       <div class="formlinks"><%= paginate @movies %></div>
@@ -53,7 +53,7 @@
          <% end %>
       </p>
       <br>
-      <p><%= textFormater("Multi", movie.description, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", movie.description, "All").html_safe %></p>
       <br>
    <% end %>
    <% if(current_user) %>

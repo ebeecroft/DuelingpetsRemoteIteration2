@@ -45,7 +45,7 @@
    <p>Cost: <%= @creature.cost %></p>
    <p>Type: <%= @creature.creaturetype.name %></p>
    <br>
-   <p><%= textFormater("Multi", @creature.description, "All").html_safe %></p>
+   <p class="textindent"><%= textFormater("Multi", @creature.description, "All").html_safe %></p>
    <br>
    <% if @creature.user.userinfo.miniavatar.to_s != "" %>
       <p><%= image_tag(@creature.user.userinfo.miniavatar_url(:thumb)) %></p>

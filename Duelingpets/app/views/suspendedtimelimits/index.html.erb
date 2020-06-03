@@ -19,7 +19,7 @@
       <p>Emeraldfine: <%= suspendedtimelimit.emeraldfines %> emeralds</p>
       <p class="formlinks">Suspended by: <%= getUserPrivilege(suspendedtimelimit.from_user) %><%= link_to suspendedtimelimit.from_user.vname, user_path(suspendedtimelimit.to_user) %></p>
       <br>
-      <p><%= textFormater("Multi", suspendedtimelimit.reason, "All").html_safe %></p>
+      <p class="textindent"><%= textFormater("Multi", suspendedtimelimit.reason, "All").html_safe %></p>
    </div>
    <br>
 <% end %>
