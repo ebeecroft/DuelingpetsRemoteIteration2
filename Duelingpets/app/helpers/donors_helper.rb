@@ -41,61 +41,90 @@ module DonorsHelper
                      render "/users/maintenance"
                   end
                else
-                  editCommons(type)
                   logged_in = current_user
                   donationboxFound = Donationbox.find_by_id(params[:donationbox_id])
                   if((logged_in && donationboxFound) && (logged_in.id != donationboxFound.user.id))
                      if(donationboxFound.box_open)
-                        newDonor = donationboxFound.donors.new
-                        if(type == "create")
+                        if(type == "new")
+                           newDonor = donationboxFound.donors.new
+                           @donationbox = donationboxFound
+                           @donor = newDonor
+                        else
                            newDonor = donationboxFound.donors.new(getDonorParams("Donor"))
                            newDonor.created_on = currentTime
                            newDonor.updated_on = currentTime
                            newDonor.user_id = logged_in.id
-                           newDonor.capacity = 50000
-                        end
-                        @donor = newDonor
-                        @donationbox = donationboxFound
-                        if(type == "create")
-                           points = @donationbox.progress + @donor.amount
-                           if((@donor.amount <= @donor.capacity) && (logged_in.pouch.amount - @donor.amount >= 0) && (points <= @donationbox.capacity))
-                              if(@donor.save)
-                                 logged_in.pouch.amount -= @donor.amount
-                                 @pouch = logged_in.pouch
-                                 @pouch.save
-                                 @donationbox.progress += @donor.amount
-                                 if(@donationbox.progress >= @donationbox.goal && !@donationbox.hitgoal)
-                                    @donationbox.hitgoal = true
-                                    profit = @donationbox.progress - @donationbox.goal
-                                    CommunityMailer.donations(@donor, "Goal", profit).deliver_now
+                           @donor = newDonor
+                           if(@donor.valid?)
+                              capacityCheck = (@donor.amount <= @donor.capacity)
+                              donationCheck = (logged_in.pouch.amount - @donor.amount >= 0)
+                              boxCheck = (donationboxFound.progress + @donor.amount <= donationboxFound.capacity)
+                              pointsAvailable = (logged_in.pouch.amount > 0)
+                              #May remove description later
+                              if((capacityCheck && donationCheck) && (boxCheck && pointsAvailable))
+                                 if(@donor.save)
+                                    points = donationboxFound.progress + @donor.amount
+                                    donationboxFound.progress = points
+                                    reachedGoal = (donationboxFound.progress >= donationboxFound.goal && !donationboxFound.hitgoal)
+                                    if(reachedGoal)
+                                       donationboxFound.hitgoal = true
+                                       profit = donationboxFound.progress - donationboxFound.goal
+                                       CommunityMailer.donations(@donor, "Goal", profit).deliver_now
+                                    end
+                                    @donationbox = donationboxFound
+                                    if(@donationbox.valid?)
+                                       flash[:success] = "#{@donor.user.vname}'s donation was successfully added!"
+                                       @donationbox.save
+                                       logged_in.pouch.amount -= @donor.amount
+                                       @pouch = logged_in.pouch
+                                       @pouch.save
+                                       CommunityMailer.donations(@donor, "Donated", @donor.amount).deliver_now
+                                       redirect_to user_path(@donationbox.user)
+                                    else
+                                       flash[:error] = "This case should never happen!"
+                                       @donor.destroy
+                                       @donationbox = donationboxFound
+                                       render "new"
+                                    end
+                                 else
+                                    @donationbox = donationboxFound
+                                    render "new"
                                  end
-                                 @donationbox.save
-                                 CommunityMailer.donations(@donor, "Donated", @donor.amount).deliver_now
-                                 flash[:success] = "#{@donor.user.vname}'s donation was successfully added!"
-                                 redirect_to user_path(@donationbox.user)
                               else
-                                 render "new"
+                                 redirect_to root_path
                               end
                            else
-                              message = ""
-                              if(@donor.amount > @donor.capacity)
-                                 message = "You exceeded the donor capacity of #{@donor.capacity} points!"
-                              elsif(points > @donationbox.capacity)
-                                 message = "You exceeded the donationbox capacity of #{@donationbox.capacity} points!"
-                              else
-                                 message = "You don't have that amount of points to donate!"
-                              end
-                              flash[:error] = message
-                              redirect_to user_path(@donationbox.user)
+                              redirect_to root_path
                            end
                         end
                      else
                         flash[:error] = "User's donationbox is not open at this time!"
-                        redirect_to root_path
+                        redirect_to user_path(donationboxFound.user)
                      end
                   else
-                     redirect_to root_path
+                     message = ""
+                     boxValue = @donationbox.progress + @donor.amount
+                     if(@donor.amount > @donor.capacity)
+                        message = "You exceeded the donor capacity of #{@donor.capacity} points!"
+                     elsif(boxValue > @donationbox.capacity)
+                        message = "You exceeded the donationbox capacity of #{@donationbox.capacity} points!"
+                     else
+                        message = "You don't have that amount of points to donate!"
+                     end
+                     flash[:error] = message
+                     redirect_to user_path(@donationbox.user)
                   end
+               end
+            elsif(type == "mydonors")
+               logged_in = current_user
+               donationboxFound = Donationbox.find_by_id(params[:donationbox_id])
+               if(logged_in && donationboxFound)
+                  removeTransactions
+                  donors = donationboxFound.donors.order("updated_on desc, created_on desc")
+                  @donationbox = donationboxFound
+                  @donors = Kaminari.paginate_array(donors).page(getDonorParams("Page")).per(10)
+               else
+                  redirect_to root_path
                end
             end
          end

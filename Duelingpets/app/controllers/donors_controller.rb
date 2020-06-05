@@ -12,4 +12,8 @@ class DonorsController < ApplicationController
    def create
       mode "create"
    end
+
+   def mydonors
+      mode "mydonors"
+   end
 end

@@ -5,7 +5,7 @@
    </head>
    <body>
       <% if @type == "Retrieve" %>
-         <h1>User <%= @content.user.vname %> gained #{@points}!</h1>
+         <h1>User <%= @content.user.vname %> gained <%= @points %>!</h1>
       <% elsif @type == "Refund" %>
          <h1>Your points have been returned to you!</h1>
       <% elsif @type == "Donated" %>

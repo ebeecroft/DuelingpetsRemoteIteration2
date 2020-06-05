@@ -59,9 +59,9 @@ module UsersHelper
             reviewedOCs = allOCs.select{|oc| oc.reviewed}
             value = reviewedOCs.count
          elsif(type == "Donors")
-            allDonors = Donors.order("created_on desc")
+            allDonors = Donor.order("created_on desc")
             donors = allDonors.select{|donor| donor.donationbox_id == user.donationbox.id && !donor.pointsreceived}
-            value = donors.sum(:amount)
+            value = donors.sum{|donor| donor.amount}
          elsif(type == "Channels")
             allChannels = user.channels.order("created_on desc")
             value = allChannels.count

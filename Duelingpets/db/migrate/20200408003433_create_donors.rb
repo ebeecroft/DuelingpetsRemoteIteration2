@@ -2,8 +2,8 @@ class CreateDonors < ActiveRecord::Migration[5.2]
   def change
     create_table :donors do |t|
       t.text :description
-      t.integer :amount
-      t.integer :capacity
+      t.integer :amount, default: 0
+      t.integer :capacity, default: 50000
       t.datetime :created_on
       t.datetime :updated_on
       t.integer :user_id

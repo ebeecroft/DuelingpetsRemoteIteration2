@@ -304,8 +304,8 @@ ActiveRecord::Schema.define(version: 2020_05_20_035902) do
 
   create_table "donors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.text "description"
-    t.integer "amount"
-    t.integer "capacity"
+    t.integer "amount", default: 0
+    t.integer "capacity", default: 50000
     t.datetime "created_on"
     t.datetime "updated_on"
     t.integer "user_id"

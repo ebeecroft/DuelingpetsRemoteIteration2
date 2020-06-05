@@ -1,5 +1,5 @@
 <% if @type == "Retrieve" %>
-   User <%= @content.user.vname %> gained #{@points}!
+   User <%= @content.user.vname %> gained <%= @points %>!
 <% elsif @type == "Refund" %>
    Your points have been returned to you!
 <% elsif @type == "Donated" %>

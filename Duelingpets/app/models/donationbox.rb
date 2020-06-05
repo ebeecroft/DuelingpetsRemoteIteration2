@@ -7,6 +7,6 @@ class Donationbox < ApplicationRecord
    VALID_VALUE_REGEX = /\A[0-9]+\z/i
 
    #Validates the donationbox information upon submission
-   validates :goal, presence: true, format: {with: VALID_VALUE_REGEX}
-   validates :description, presence: true
+   #validates :goal, presence: true, format: {with: VALID_VALUE_REGEX}
+   #validates :description, presence: true
 end

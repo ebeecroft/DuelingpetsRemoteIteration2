@@ -2,19 +2,20 @@
    <% if @user.donationbox.to_s != "" %>
       <br>
       <p>Donationbox section</p>
-      <p>Capacity: <%= getUserContent(@user, "Donationbox") %>/<%= @user.donationbox.capacity %></p>
+      <p>Capacity: <%= getUserContent(@user, "Donors") %>/<%= @user.donationbox.capacity %></p>
       <p>Box open: <%= @user.donationbox.box_open %></p>
       <% if(@user.donationbox.box_open) %>
          <% if current_user.id == @user.id %>
             <% if !@user.donationbox.hitgoal %>
-               <p><%= button_to 'Refund', donationboxes_refund_path(:id=>@user.donationbox.id), method: :post, class: "button editbutton" %></p>
+               <p><%= button_to 'Refund', donationboxes_refund_path(:id=>@user.donationbox.id), method: :post, class: "button submitbutton" %></p>
             <% else %>
-               <p><%= button_to 'Retrieve', donationboxes_retrieve_path(:id=>@user.donationbox.id), method: :post, class: "button editbutton" %></p>
+               <p><%= button_to 'Retrieve', donationboxes_retrieve_path(:id=>@user.donationbox.id), method: :post, class: "button submitbutton" %></p>
             <% end %>
          <% else %>
-            <p><%= button_to 'Donate', new_donationbox_donors_path(@user.donationbox), method: :get, class: "button editbutton" %></p>
+            <p><%= button_to 'Donate', new_donationbox_donor_path(@user.donationbox), method: :get, class: "button submitbutton" %></p>
          <% end %>
          <p>Goal: <%= @user.donationbox.progress %>/<%= @user.donationbox.goal %></p>
+         <p class="formlinks">Donors: <%= link_to @user.donationbox.donors.count, donors_mydonors_path(:donationbox_id=>@user.donationbox.id) %></p>
          <p>Initialized: <%= distance_of_time_in_words_to_now @user.donationbox.initialized_on %> ago on (<%=
             @user.donationbox.initialized_on.strftime("%B-%d-%Y") %>)
          </p>
@@ -24,7 +25,7 @@
          <p><%= @user.vname %>'s donationbox is currently not open for donations!</p>
          <% if current_user.id == @user.id %>
             <br>
-            <p><%= button_to 'Enable Donationbox', edit_user_donationbox_path(@user), method: :get, class: "button submitbutton" %></p>
+            <p><%= button_to 'Enable Donationbox', edit_user_donationbox_path(@user, @user.donationbox), method: :get, class: "button submitbutton" %></p>
          <% end %>
       <% end %>
    <% end %>

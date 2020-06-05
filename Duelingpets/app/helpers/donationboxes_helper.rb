@@ -87,7 +87,7 @@ module DonationboxesHelper
                      points = donationboxFound.progress
                      donationtax = Ratecost.find_by_name("Donationrate")
                      taxinc = donationtax.amount
-                     results = `public/Resources/Code/dbox/calz #{points} #{taxinc}`
+                     results = `public/Resources/Code/dbox/calc #{points} #{taxinc}`
 
                      string_array = results.split(",")
                      pointsTax, taxRate = string_array.map{|str| str.to_f}
@@ -95,7 +95,7 @@ module DonationboxesHelper
                      #Send the points to the user's pouch
                      pouch = Pouch.find_by_user_id(donationboxFound.user.id)
                      netPoints = donationboxFound.progress - pointsTax
-                     CommunityMailer.donations(donationboxFound, "Retrieve", pointsTax).deliver_now
+                     CommunityMailer.donations(donationboxFound, "Retrieve", netPoints).deliver_now
                      pouch.amount += netPoints
                      @pouch = pouch
                      @pouch.save
