@@ -27,10 +27,10 @@
    donotionbox owner was inactive for six months.
 <% elsif @type == "Donated" %>
    Well done <%= @content.donationbox.user.vname %> you
-   seemed to have got a good selection of donors to
+   seemed to have a good selection of donors to
    contribute to your cause. You are well on your way
    to achieving your goal. Though the larger your goal
-   is the harder this will be to achieve. If you can
+   is, the harder it will be to achieve. If you can
    keep this up you will achieve your goal in no time.
 <% elsif @type == "Goal" %>
    Congratualations <%= @content.donationbox.user.vname %>
@@ -43,11 +43,11 @@
 <% end %>
 
 <% if @type == "Retrieve" %>
-   Your tax rate is blank percent and as such I will be
-   taking blanks points away from you. This leaves you
+   Your tax rate is <%= @taxrate %> percent and as such I will be
+   taking <%= @tax %> points away from you. This leaves you
    with <%= @points %> points remaining. Still you have
    a lot more points than you started with. People must
-   love you quite a great deal for you have gotten this
+   love you quite a good deal for you have achieved this
    many points. Now that you have taken your points I
    have deactivated your donation system since you have
    achieved your goal. Feel free to start up again if
@@ -67,12 +67,11 @@
    donated <%= @points %> to your donationbox.
 <% elsif @type == "Goal" %>
    Lets see how well you did, it appears that you made
-   <%= @content.donationbox.progress %> points. When we
-   subtract your goal points from the progress points
-   you have <%= @points %> points. You seem you did
-   quite well. I am sure you will put these new points
-   to good use. I wish you the best of luck in your next
-   donation run.
+   <%= @tax %> points. When we subtract your goal points
+   from the progress points you have <%= @points %> points.
+   You seem to have done quite well. I am sure you will put
+   these new points to good use. I wish you the best of luck
+   in your next donation run.
 <% end %>
 
 

@@ -69,7 +69,7 @@ module DonorsHelper
                                     if(reachedGoal)
                                        donationboxFound.hitgoal = true
                                        profit = donationboxFound.progress - donationboxFound.goal
-                                       CommunityMailer.donations(@donor, "Goal", profit).deliver_now
+                                       CommunityMailer.donations(@donor, "Goal", profit, 0, points).deliver_now
                                     end
                                     @donationbox = donationboxFound
                                     if(@donationbox.valid?)
@@ -78,7 +78,7 @@ module DonorsHelper
                                        logged_in.pouch.amount -= @donor.amount
                                        @pouch = logged_in.pouch
                                        @pouch.save
-                                       CommunityMailer.donations(@donor, "Donated", @donor.amount).deliver_now
+                                       CommunityMailer.donations(@donor, "Donated", @donor.amount, 0, 0).deliver_now
                                        redirect_to user_path(@donationbox.user)
                                     else
                                        flash[:error] = "This case should never happen!"

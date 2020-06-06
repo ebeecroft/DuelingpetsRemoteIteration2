@@ -147,19 +147,22 @@ class CommunityMailer < ApplicationMailer
       mail(to: email, from: websiteMail, subject: message)
    end
 
-   def donations(content, type, points)
+   def donations(content, type, points, taxrate, tax)
       websiteMail = "notification@duelingpets.net"
       email = ""
       message = ""
       if(type == "Goal")
          email = content.donationbox.user.email
          message = "Congratulations you hit your goal of #{content.donationbox.goal} points!"
+         @tax = tax
       elsif(type == "Donated")
          email = content.donationbox.user.email
          message = "#{content.user.vname} donated #{points} points to you!"
       elsif(type == "Retrieve")
          email = content.user.email
          message = "Congratulations #{content.user.vname} you just gained #{points} points!"
+         @taxrate = taxrate
+         @tax = tax
       elsif(type == "Refund")
          email = content.user.email
          message = "#{content.donationbox.user.vname} gave you back your points!"

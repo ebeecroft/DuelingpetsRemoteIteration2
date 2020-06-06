@@ -95,7 +95,7 @@ module DonationboxesHelper
                      #Send the points to the user's pouch
                      pouch = Pouch.find_by_user_id(donationboxFound.user.id)
                      netPoints = donationboxFound.progress - pointsTax
-                     CommunityMailer.donations(donationboxFound, "Retrieve", netPoints).deliver_now
+                     CommunityMailer.donations(donationboxFound, "Retrieve", netPoints, taxRate, pointsTax).deliver_now
                      pouch.amount += netPoints
                      @pouch = pouch
                      @pouch.save
@@ -108,7 +108,7 @@ module DonationboxesHelper
                      activeDonors.each do |donor|
                         donor.user.pouch.amount += donor.amount
                         donationboxFound.progress -= donor.amount
-                        CommunityMailer.donations(donor, "Refund", donor.amount).deliver_now
+                        CommunityMailer.donations(donor, "Refund", donor.amount, 0, 0).deliver_now
                         @tempbox = donationboxFound
                         @tempbox.save
                         @pouch = donor.user.pouch
